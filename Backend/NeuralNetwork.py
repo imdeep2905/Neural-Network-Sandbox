@@ -4,7 +4,8 @@ from tensorflow import keras
 #other packages
 import pandas as pd 
 import matplotlib.pyplot as plt 
-
+import os
+import json
 #choosing optimizer according to user's choice
 def get_optimizer(optimizer,lr):
     if optimizer=="SGD":
@@ -38,41 +39,44 @@ class NN:
         self.train_history=0                #Reserved for future use
         self.test_history=0                 #           " 
     
-    def connect_network(self,normalize=False):
+    def connect_network(self,x,y=0,normalize=False):
         #This fn connects and compiles model
         #Creating Model
-        self.model.add(keras.layers.Flatten(input_shape=[28,28])) #Testing with MNIST    
+        self.model.add(keras.layers.Flatten(input_shape=[x,y]))     
         for i in range(1,self.total_layers):
             if normalize==True:
                 self.model.add(keras.layers.BatchNormalization())
             self.model.add(keras.layers.Dense(self.neuron_layers[i],activation=self.activation_layers[i],kernel_initializer=self.kernal_init))
         #Compiling Model 
         self.model.compile(loss=self.loss_fn,optimizer=get_optimizer(self.optimizer,self.lr),metrics=self.metrics)
-        print(self.model.summary()) #for debugging
+        print(self.model.summary()) #for debugging 
     
     def fit(self,x_train,y_train,x_val=0,y_val=0):
+        #without validation set
         if x_val==0:
             self.train_history=self.model.fit(x_train,y_train,epochs=self.epochs)
+        #with validation
         else:
             self.train_history=self.model.fit(x_train,y_train,epochs=self.epochs,validation_data=(x_val,y_val))
     
-    def evaluate(x_test,y_test):
+    def evaluate(self,x_test,y_test):
         self.test_history=self.model.evaluate(x_test,y_test)
     
-    def train_visualize(self):
-        pd.DataFrame(self.train_history.history).plot(figsize=(16,10)) #will change here for other devices
+    def train_visualize(self,size_x=8,size_y=5):
+        pd.DataFrame(self.train_history.history).plot(figsize=(size_x,size_y)) 
         plt.grid(True)
-        #plt.gca().set_ylim(0,1)
-        plt.savefig("train_v")
+        plt.savefig("train_history_img")
     
-    def test_visualize(self):
-        pd.DataFrame(self.test_history.history).plot(figsize=(8,5)) #will change here for other devices
+    def test_visualize(self,size_x=8,size_y=5):
+        pd.DataFrame(self.test_history.history).plot(figsize=(size_x,size_y)) 
         plt.grid(True)
-        #plt.gca().set_ylim(0,1)
-        plt.show()
+        plt.savefig("test_history_img")    
         
-    def save_model(self,path):
-        pass
+    def save_model(self,name,path="."):
+        self.model.save(os.path.join(path,name+".h5"))
     
-    def load_model(self,path):
-        pass
+    def load_model(self,name,path="."):
+        self.model=keras.models.load_model(os.path.join(path,name+".h5"))
+        with open("for_frontend_use.json", 'w') as f:
+            json.dump(self.model.to_json(),f)
+        
