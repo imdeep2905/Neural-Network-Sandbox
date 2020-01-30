@@ -6,6 +6,7 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 import os
 import json
+#os.environ['CUDA_VISIBLE_DEVICES'] = '-1' #For CPU use
 #choosing optimizer according to user's choice
 def get_optimizer(optimizer,lr):
     if optimizer=="SGD":
@@ -39,10 +40,10 @@ class NN:
         self.train_history=0                #Reserved for future use
         self.test_history=0                 #           " 
     
-    def connect_network(self,x,y=0,normalize=False):
+    def connect_network(self,shape=[28,28],normalize=False):
         #This fn connects and compiles model
         #Creating Model
-        self.model.add(keras.layers.Flatten(input_shape=[x,y]))     
+        self.model.add(keras.layers.Flatten(input_shape=shape))     
         for i in range(1,self.total_layers):
             if normalize==True:
                 self.model.add(keras.layers.BatchNormalization())
