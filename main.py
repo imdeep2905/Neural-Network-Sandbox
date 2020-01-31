@@ -1,3 +1,3 @@
-from Frontend.MainApp import MainApp
+from Frontend.MainApp import NNSandboxApp
 if __name__ == "__main__":
-    MainApp().run()
+    NNSandboxApp().run()
