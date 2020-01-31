@@ -29,6 +29,9 @@ class DataProcessor:
         # *** Experimental ***
         #this fn will replace missing values and convert non-numeric values to numeric
         #Dropping unnecessary cols and non numeric -> numeric
+        #                   ****
+        #Need to impliment the drops of ID like columns
+        #                   ****
         non_numeric_cols=self.data.select_dtypes(include="object")
         for col in non_numeric_cols:
             if len(self.data[col].unique())>self.data.shape[0]//factor or (self.data.shape[0]-self.data[col].count()) > self.data.shape[0]//factor:
@@ -44,12 +47,13 @@ class DataSplitter(DataProcessor):
     def __init__(self, name, path='.'):
         super().__init__(name, path=path)
         
-    def get_splitted_xy(self,test_r=0.1,val_r=0.0,label_last=True,seed=42):
+    def get_splitted_xy(self,test_r=0.1,val_r=None,label_last=True,seed=42):
         shape,x_data,y_data=super().get_xy(label_last=label_last)
-        x_train,x_test,y_train,y_test=train_test_split(data, labels, test_size=test_r, random_state=seed)
-        x_test,x_val,y_test,y_val=train_test_split(x_test, y_test, test_size=val_r,random_state=seed)
-        if val_r!=0:
+        x_train,x_test,y_train,y_test=train_test_split(x_data,y_data,test_size=test_r, random_state=seed)
+        if val_r!=None:
+            x_test,x_val,y_test,y_val=train_test_split(x_test, y_test, test_size=val_r,random_state=seed)
             return shape,x_train,y_train,x_val,y_val,x_test,y_test
         else:
             return shape,x_train,y_train,x_test,y_test
-    
+
+#class ImageToData: #if time permits this will be implimented
