@@ -8,6 +8,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.stacklayout import StackLayout
 from kivy.uix.button import Button
 from kivy.graphics.instructions import Canvas
+from kivy.graphics import *
 #main.kv
 #rgba(44, 58, 71,1.0)
 Builder.load_string('''
@@ -19,6 +20,12 @@ Builder.load_string('''
             Rectangle:
                 pos: self.pos
                 size: self.size
+        canvas: 
+            Color: 
+                rgba: 1, 1, 1, 1
+            Line: 
+                width: 5
+                rectangle: (self.x, self.y, self.width, 0.3)
         StackLayout:
             size_hint: 1,0.45
             pos_hint:{"left":0,"bottom":root.width}
