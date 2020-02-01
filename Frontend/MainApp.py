@@ -11,6 +11,7 @@ from kivy.uix.button import Button
 from kivy.uix.togglebutton import ToggleButton
 from kivy.graphics.instructions import Canvas
 from kivy.graphics import *
+import webbrowser
 #main.kv
 #rgba(44, 58, 71,1.0)
 Builder.load_string('''
@@ -24,27 +25,37 @@ Builder.load_string('''
                 size: self.size
         #1/3 MainScreen
         FloatLayout:
-            pos_hint: {"x":0,"y":.7}
+            pos_hint: {"x":0,"y":0.7}
             size_hint:1,0.3
+            Button:
+                text: "Readme"
+                pos_hint: {"x":0.,"y":.8}
+                size_hint: 0.2,0.2
+                on_press:  root.open_tutorial()             
+            Button:
+                text: "Help"
+                pos_hint: {"x":0.2,"y":.8}
+                size_hint: 0.2,0.2
+                on_press:  root.open_help()             
             ToggleButton:
-                pos_hint: {"x":0,"y":0}
+                pos_hint: {"x":0,"y":.35}
                 border: 0,0,0,0
                 size_hint: 0.1,0.3
                 background_color:(0.137, 0.149, 0.161, 1.0)
-                background_normal:'Frontend/imgs/play.png'
-                background_down: 'Frontend/imgs/pause.png'
+                background_normal:'imgs/play.png'
+                background_down: 'imgs/pause.png'
             Button:
-                pos_hint: {"x":0.1,"y":0}
+                pos_hint: {"x":0.1,"y":.35}
                 border: 0,0,0,0
                 size_hint: 0.1,0.3
-                background_normal:'Frontend/imgs/reset.png'
+                background_normal:'imgs/reset.png'
         #2/3 MainScreen
         BoxLayout:
             pos_hint: {"x":0,"y":.15}
             size_hint:1,0.55
             Button:
                 text:"Animation"
-        #3/3 MainScreen
+        #3/3 MainScreen ---> Done
         GridLayout:
             size_hint: 1,0.15 
             cols: 3
@@ -80,7 +91,10 @@ Builder.load_string('''
                     text: str(slider.value)+str("%")
 ''')
 class MainScreen(FloatLayout):
-    pass
+    def open_tutorial(self):
+        webbrowser.open("https://github.com/imdeep2905/Neural-Network-Sandbox/blob/master/README.md")
+    def open_help(self):
+        webbrowser.open("https://github.com/imdeep2905/Neural-Network-Sandbox/blob/master/HELP.md")
 
 class NNSandboxApp(App):
     def build(self):
