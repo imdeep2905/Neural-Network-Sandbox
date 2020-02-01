@@ -1,6 +1,7 @@
 import kivy
 kivy.require('1.11.1') 
 from kivy.app import App
+from kivy.uix.slider import Slider
 from kivy.uix.label import Label
 from kivy.lang.builder import Builder
 from kivy.uix.floatlayout import FloatLayout
@@ -20,33 +21,52 @@ Builder.load_string('''
             Rectangle:
                 pos: self.pos
                 size: self.size
-        canvas: 
-            Color: 
-                rgba: 1, 1, 1, 1
-            Line: 
-                width: 5
-                rectangle: (self.x, self.y, self.width, 0.3)
-        StackLayout:
-            size_hint: 1,0.45
-            pos_hint:{"left":0,"bottom":root.width}
+        #1/3 MainScreen
+        BoxLayout:
+            pos_hint: {"x":0,"y":.7}
+            size_hint:1,0.3
+            Button:
+                text:"Other Things"
+        #2/3 MainScreen
+        BoxLayout:
+            pos_hint: {"x":0,"y":.15}
+            size_hint:1,0.55
+            Button:
+                text:"Animation"
+        #3/3 MainScreen
+        GridLayout:
+            size_hint: 1,0.15 
+            cols: 3
             Button:
                 text: "Save Current Model"
-                size_hint: 1/3.,0.1
             Button:
-                text: "Training Stats"
-                size_hint: 1/3.,0.1
+                text: "Visualize Training"
             Button:
-                text: "Browse traindata (*.csv)"    
-                size_hint: 1/3.,0.1
+                text: "Browse training data(*.csv)"
             Button:
-                text: "Load Exsisting Model"
-                size_hint: 1/3.,0.1
+                text: "Load Existing Model"
+            Button:
+                text: "Visualize Testing"
+            Button:
+                text: "Browse testing data(*.csv)"
+            Button:
+                text: "About"
             Button:
                 text: "Report a Bug"
-                size_hint: 1/3.,0.1    
-            Button:
-                text: "Browse testdata (*.csv)"    
-                size_hint: 1/3.,0.1
+            BoxLayout:
+                Label:
+                    size_hint: 0.4,1
+                    text: "Validation Split: "
+                Slider:
+                    size_hint: 0.5,1
+                    id: slider
+                    min: 0
+                    max: 90
+                    step: 10
+                    orientation: 'horizontal'
+                Label:
+                    size_hint: 0.1,1
+                    text: str(slider.value)+str("%")
 ''')
 class MainScreen(FloatLayout):
     pass
