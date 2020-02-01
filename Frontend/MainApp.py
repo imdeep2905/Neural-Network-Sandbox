@@ -31,13 +31,13 @@ Builder.load_string('''
                 border: 0,0,0,0
                 size_hint: 0.1,0.3
                 background_color:(0.137, 0.149, 0.161, 1.0)
-                background_normal:'play.png'
-                background_down: 'pause.png'
+                background_normal:'Frontend/imgs/play.png'
+                background_down: 'Frontend/imgs/pause.png'
             Button:
                 pos_hint: {"x":0.1,"y":0}
                 border: 0,0,0,0
                 size_hint: 0.1,0.3
-                background_normal:'reset.png'
+                background_normal:'Frontend/imgs/reset.png'
         #2/3 MainScreen
         BoxLayout:
             pos_hint: {"x":0,"y":.15}
