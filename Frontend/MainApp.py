@@ -8,6 +8,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.stacklayout import StackLayout
 from kivy.uix.button import Button
+from kivy.uix.togglebutton import ToggleButton
 from kivy.graphics.instructions import Canvas
 from kivy.graphics import *
 #main.kv
@@ -17,16 +18,26 @@ Builder.load_string('''
     FloatLayout:
         canvas.before:
             Color:
-                rgba: 0, 0, 0, 1.0 #Will change color later
+                rgba: 0.137, 0.149, 0.161, 1.0 #Will change color later
             Rectangle:
                 pos: self.pos
                 size: self.size
         #1/3 MainScreen
-        BoxLayout:
+        FloatLayout:
             pos_hint: {"x":0,"y":.7}
             size_hint:1,0.3
+            ToggleButton:
+                pos_hint: {"x":0,"y":0}
+                border: 0,0,0,0
+                size_hint: 0.1,0.3
+                background_color:(0.137, 0.149, 0.161, 1.0)
+                background_normal:'play.png'
+                background_down: 'pause.png'
             Button:
-                text:"Other Things"
+                pos_hint: {"x":0.1,"y":0}
+                border: 0,0,0,0
+                size_hint: 0.1,0.3
+                background_normal:'reset.png'
         #2/3 MainScreen
         BoxLayout:
             pos_hint: {"x":0,"y":.15}
