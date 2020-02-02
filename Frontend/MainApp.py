@@ -10,6 +10,7 @@ from kivy.lang.builder import Builder
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.stacklayout import StackLayout
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.uix.togglebutton import ToggleButton
@@ -20,6 +21,15 @@ from kivy.uix.checkbox import CheckBox
 import webbrowser
 from PIL import Image
 
+class Layer(BoxLayout):
+    pass
+class Middle(BoxLayout):
+    def add_w(self):
+        self.add_widget(Layer())
+    def remove_w(self):
+        if len(self.children) > 2:
+            self.remove_widget(self.children[0])
+                        
 class MainScreen(FloatLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
