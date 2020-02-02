@@ -71,13 +71,13 @@ class NN:
     def train_visualize(self,size_x=8,size_y=5):
         pd.DataFrame(self.train_history.history).plot(figsize=(size_x,size_y)) 
         plt.grid(True)
-        plt.savefig("train_history_img")
+        plt.savefig("train_history_img",format='jpg')
     
     def test_visualize(self,size_x=8,size_y=5):
         #not working
         pd.DataFrame(self.test_history.history).plot(figsize=(size_x,size_y)) 
         plt.grid(True)
-        plt.savefig("test_history_img")    
+        plt.savefig("test_history_img",format='jpg')    
         
     def save_model(self,name,path="."):
         self.model.save(os.path.join(path,name+".h5"))
