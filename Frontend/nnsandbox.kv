@@ -1,3 +1,42 @@
+<Layer>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1.0 #Will change color later
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    GridLayout:
+        rows:3
+        BoxLayout:
+            size_hint:1,0.1
+            Label:
+                size_hint: 0.4,1            
+                text: "Neurons: "
+            TextInput:
+                multiline: False
+                size_hint: 0.3,1            
+                id:neuron
+                text: "1"
+        Label:
+            text: "Padding"
+            size_hint: 1,0.8
+        BoxLayout:
+            size_hint: 1,0.1
+            Label:
+                size_hint: 0.7,1
+                text : "Activation : "
+            Spinner:
+                size_hint: 0.3,1
+                id: activation_fn
+                text: "None"                   #default value showed
+                values: ["None","sigmoid","relu","elu","selu","tanh","softmax","linear"]       #list of values to show
+                on_text:
+                    root.temp(loss_fn.text)
+    
+<Middle>:
+    Layer:
+    Layer:
+
 <MainScreen>:
     FloatLayout:
         canvas.before:
@@ -80,6 +119,7 @@
                 size_hint: 0.1,0.2            
                 text: "Learning rate: "
             TextInput:
+                multiline:False
                 pos_hint: {"x":0.45,"y":0.45}
                 size_hint: 0.1,0.15            
                 id:lr
@@ -96,12 +136,21 @@
                 values: ["he_normal","he_uniform","lecun_normal","lecun_uniform","glorot_normal","glorot_uniform","RandomNormal","RandomUniform","Orthogonal"]       #list of values to show
                 on_text:
                     root.temp(kernal_init.text)
+            Button:
+                pos_hint: {"x":0.3,"y":0.} 
+                size_hint: 0.2,0.2
+                text: "Add Layer"
+                on_press: mid.add_w()
+            Button:
+                pos_hint: {"x":0.5,"y":0.} 
+                size_hint: 0.2,0.2
+                text: "Remove Layer"
+                on_press: mid.remove_w()
         #2/3 MainScreen
-        BoxLayout:
+        Middle:
+            id: mid
             pos_hint: {"x":0,"y":.15}
             size_hint:1,0.55
-            Button:
-                text:"Animation"
         #3/3 MainScreen ---> Done
         GridLayout:
             size_hint: 1,0.15 
