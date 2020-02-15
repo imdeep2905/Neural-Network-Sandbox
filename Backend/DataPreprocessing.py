@@ -7,13 +7,14 @@ from sklearn.model_selection import train_test_split
 
 class DataProcessor:
     def __init__(self,path):
-        self.data=pd.read_csv(self.file_pat)
+        self.data=pd.read_csv(path)
         self.x_data=0
         self.y_data=0
+        self.cols=0
     
     def get_xy(self,label_last=True,smart_preprocess=False):
         if smart_preprocess:
-            self.smart_preprocess()
+            self.cols=self.smart_preprocess()
         # Currently only single label is supported
         #self.data=self.data.drop(["thal"],axis=1) #TESTING
         if label_last:
