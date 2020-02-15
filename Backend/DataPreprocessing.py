@@ -6,16 +6,17 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 
 class DataProcessor:
-    def __init__(self,name,path="."):
-        self.file_path=os.path.join(path,name)
-        self.data=pd.read_csv(self.file_path)
+    def __init__(self,path):
+        self.data=pd.read_csv(self.file_pat)
         self.x_data=0
         self.y_data=0
     
-    def get_xy(self,label_last=True):
+    def get_xy(self,label_last=True,smart_preprocess=False):
+        if smart_preprocess:
+            self.smart_preprocess()
         # Currently only single label is supported
         #self.data=self.data.drop(["thal"],axis=1) #TESTING
-        if label_last==True:
+        if label_last:
             target=self.data.pop(self.data.columns[len(self.data.columns)-1])
             self.y_data=target.values
         else:
@@ -43,9 +44,9 @@ class DataProcessor:
         return self.data.shape[1]
         
 class DataSplitter(DataProcessor):
-    #this class is inherited because all basic funcs are same escept this will split data
-    def __init__(self, name, path='.'):
-        super().__init__(name, path=path)
+    #this class is inherited because all basic funcs are same except this will split data
+    def __init__(self,path,smart_preprocess):
+        super().__init__(path=path,smart_preprocess=smart_preprocess)
         
     def get_splitted_xy(self,test_r=0.1,val_r=None,label_last=True,seed=42):
         shape,x_data,y_data=super().get_xy(label_last=label_last)
