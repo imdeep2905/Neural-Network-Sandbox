@@ -1,3 +1,4 @@
+#:kivy!
 <Layer>:
     canvas.before:
         Color:
@@ -158,6 +159,16 @@
                 id: remove_layer_btn
                 text: "Remove Layer"
                 on_press: mid.remove_layer()
+            CheckBox:
+                pos_hint: {"x":0.4,"y":0.} 
+                size_hint: 0.03,0.2                
+                active: True
+                on_active: root.batch_normalization=self.active
+            Label:
+                pos_hint: {"x":0.43,"y":0.}
+                size_hint: 0.1,0.2
+                text: "Batch Normalization"
+
         #2/3 MainScreen
         Middle:
             id: mid
