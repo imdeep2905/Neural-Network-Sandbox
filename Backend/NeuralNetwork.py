@@ -71,7 +71,7 @@ class NN:
     def train_visualize(self,size_x=8,size_y=5):
         pd.DataFrame(self.train_history.history).plot(figsize=(size_x,size_y)) 
         plt.grid(True)
-        plt.savefig("train_history_img",format='jpg')
+        plt.savefig("train_history_img")
     
     def test_visualize(self,size_x=8,size_y=5):
         #not working
