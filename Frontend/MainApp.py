@@ -149,7 +149,7 @@ class MainScreen(FloatLayout):
             d=DataSplitter(self.test_path)
             shape,x_test,y_test,x_val,y_val=d.get_splitted_xy(test_r=self.validation_split/100)
         self.running=False
-        #Actual Training and Testing s
+        #Actual Training and Testing 
         self.model.connect_network(shape,normalize=self.batch_normalization)
         if x_val==0:
             self.model.fit(x_train,y_train)
@@ -159,7 +159,10 @@ class MainScreen(FloatLayout):
             self.model.fit(x_train,y_train,x_val=x_val,y_val=y_val)
             if x_test!=0:
                 self.model.evaluate(x_test,y_test)
-            
+        #Saving history
+        #self.model.train_visualize()
+        #self.model.test_visualize()
+                
     def setup(self):
         self.running=True
         #Checking errors
