@@ -96,7 +96,7 @@ class MainScreen(FloatLayout):
         self.running=False
     
     def pause(self):
-        
+        pass
         
 class NNSandboxApp(App):
     def build(self):
