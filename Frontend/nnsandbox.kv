@@ -30,8 +30,6 @@
                 id: activation_fn
                 text: "None"                   #default value showed
                 values: ["None","sigmoid","relu","elu","selu","tanh","softmax","linear"]       #list of values to show
-                on_text:
-                    root.temp(loss_fn.text)
     
 <Middle>:
     Layer:
@@ -53,12 +51,12 @@
                 text: "Readme"
                 pos_hint: {"x":0.,"y":.9}
                 size_hint: 0.1,0.1
-                on_press:  root.open_tutorial()             
+                on_press:  root.open_browser(tutorial=True)             
             Button:
                 text: "Help"
                 pos_hint: {"x":0.1,"y":.9}
                 size_hint: 0.1,0.1
-                on_press:  root.open_help()             
+                on_press:  root.open_browser(help=True)             
             ToggleButton:
                 pos_hint: {"x":0,"y":.35}
                 border: 0,0,0,0
@@ -71,6 +69,7 @@
                 border: 0,0,0,0
                 size_hint: 0.1,0.3
                 background_normal:'Frontend/imgs/reset.png'
+                on_press: root.reset()
             Label:
                 text: "Optimization Technique: "
                 pos_hint: {"x":0.2,"y":0.8}
@@ -78,11 +77,12 @@
             Spinner:
                 pos_hint: {"x":0.4,"y":0.8}
                 size_hint: 0.2,0.2
-                id: opti_tech_list
+                id: optimizer
                 text: "SGD"                   #default value showed
                 values: ["SGD","RMSprop","Adagrad","Adam","Adamax","Nadam","Adadelta"]       #list of values to show
                 on_text:
-                    root.temp(opti_tech_list.text)
+                    root.optimizer=optimizer.text
+
             Label:
                 text: "Loss Function: "
                 pos_hint: {"x":0.6,"y":0.8}
@@ -94,7 +94,7 @@
                 text: "sparse_categorical_crossentropy"                   #default value showed
                 values: ["sparse_categorical_crossentropy","binary_crossentropy","categorical_crossentropy","mean_squared_error","mean_absolute_error","huber_loss","cosine_proximity","poisson"]       #list of values to show
                 on_text:
-                    root.temp(loss_fn.text)
+                    root.loss_fn=loss_fn.text
             Label:
                 pos_hint: {"x":0.2,"y":0.5}
                 size_hint: 0.05,0.05            
@@ -108,22 +108,27 @@
                 pos_hint: {"x":0.30,"y":0.5}
                 size_hint: 0.025,0.05
                 text: "+"
-                on_press: root.change_epoch(Incr=True)
+                on_press: 
+                    root.change_epoch(Incr=True)
             Button:
                 pos_hint: {"x":0.325,"y":0.5}
                 size_hint: 0.025,0.05
                 text: "-"
-                on_press: root.change_epoch(Decr=True)
+                on_press: 
+                    root.change_epoch(Decr=True)
             Label:
                 pos_hint: {"x":0.35,"y":0.45}
                 size_hint: 0.1,0.2            
                 text: "Learning rate: "
             TextInput:
                 multiline:False
+                id: lr
                 pos_hint: {"x":0.45,"y":0.45}
                 size_hint: 0.1,0.15            
                 id:lr
                 text: "0.01"
+                on_text: 
+                    root.lr=lr.text
             Label:
                 text: "Weights Intialization: "
                 pos_hint: {"x":0.55,"y":0.4}
@@ -135,17 +140,18 @@
                 text: "he_normal"                   #default value showed
                 values: ["he_normal","he_uniform","lecun_normal","lecun_uniform","glorot_normal","glorot_uniform","RandomNormal","RandomUniform","Orthogonal"]       #list of values to show
                 on_text:
-                    root.temp(kernal_init.text)
+                    root.kernal_init=kernal_init.text
+                    
             Button:
-                pos_hint: {"x":0.3,"y":0.} 
+                pos_hint: {"x":0.0,"y":0.} 
                 size_hint: 0.2,0.2
                 text: "Add Layer"
-                on_press: mid.add_w()
+                on_press: mid.add_layer()
             Button:
-                pos_hint: {"x":0.5,"y":0.} 
+                pos_hint: {"x":0.2,"y":0.} 
                 size_hint: 0.2,0.2
                 text: "Remove Layer"
-                on_press: mid.remove_w()
+                on_press: mid.remove_layer()
         #2/3 MainScreen
         Middle:
             id: mid
@@ -173,31 +179,38 @@
                 on_release: root.get_csv_file(Test=True)
             Button:
                 text: "Report a Bug"
-                on_press: root.report_bug()
+                on_press: root.open_browser(bug=True)
             BoxLayout:
                 Label:
                     size_hint: 0.3,1
                     text:"Label at start"
                 CheckBox:
                     size_hint: 0.1,1
+                    id: label_start
                     active: True
+                    on_active: root.label_at_start=self.active
                 Label:
                     size_hint: 0.5,1
                     text: "Smart Preprocess Data"
                 CheckBox:
+                    id: smart_preprocess
                     size_hint: 0.1,1
                     active: True
+                    on_active: root.smart_preprocess=self.active
+                       
             BoxLayout:
                 Label:
                     size_hint: 0.4,1
                     text: "Validation Split: "
                 Slider:
                     size_hint: 0.5,1
-                    id: slider
+                    id: validation_split
                     min: 0
                     max: 90
                     step: 10
                     orientation: 'horizontal'
+                    on_value: 
+                        root.val_split=self.value 
                 Label:
                     size_hint: 0.1,1
-                    text: str(slider.value)+str("%")
+                    text: str(validation_split.value)+str("%")
