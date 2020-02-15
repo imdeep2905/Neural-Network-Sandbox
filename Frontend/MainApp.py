@@ -51,6 +51,8 @@ class MainScreen(FloatLayout):
         self.label_at_start=True
         self.train_path=""
         self.test_path=""
+        self.batch_normalization=True
+        self.metrics=["accuracy"]
         self.model=NN()
         
     def open_browser(self,tutorial=False,help=False,bug=False):
@@ -110,6 +112,7 @@ class MainScreen(FloatLayout):
                 children.ids.activation_fn.text=str("None")
             
     def start(self):
+        self.running=True
         layers_n,layers,active_fns=self.setup()
         self.model=NN(
             GPU=True,
@@ -119,15 +122,35 @@ class MainScreen(FloatLayout):
             loss_fn=self.loss_fn,
             opti_tech=self.optimizer,
             lr=self.lr,
-            epochs=self.epochs,
+            epochs=int(self.epochs),
             kernal_init=self.kernal_init,
-            metrics=["accuracy"]
+            metrics=self.metrics
         )
         shape,x_train,y_train,x_test,y_test,x_val,y_val=0,0,0,0,0,0,0
         if self.validation_split!=0 and self.test_path=="":
             d=DataSplitter(self.train_path,smart_preprocess=self.smart_preprocess)
+            shape,x_train,x_test,x_val,y_val,x_test,y_test=d.get_splitted_xy(test_r=0.1,val_r=self.validation_split/100)
+            #self.ids.mid.children[layers_n-1].neurons.text=str(d.cols)
         
+        if self.validation_split==0 and self.test_path=="":
+            d=DataProcessor(self.train_path)
+            shape,x_train,y_train=d.get_xy(label_last= not self.label_at_start,smart_preprocess=self.smart_preprocess)
+            #self.ids.mid.children[layers_n-1].neurons.text=str(d.cols)
+        
+        if self.validation_split==0 and self.test_path!="":
+            d=DataProcessor(self.train_path)
+            shape,x_train,y_train=d.get_xy(label_last= not self.label_at_start,smart_preprocess=False)
+            d=DataProcessor(self.test_path)
+            shape,x_test,y_test=d.get_xy(label_last= not self.label_at_start,smart_preprocess=False)
+        
+        if self.validation_split!=0 and self.test_path!="":
+            d=DataProcessor(self.train_path)
+            shape,x_train,y_train=d.get_xy(label_last=not self.label_at_start,smart_preprocess=False)
+            d=DataSplitter(self.test_path)
+            shape,x_test,y_test,x_val,y_val=d.get_splitted_xy(test_r=self.validation_split/100)
+        self.running=False
         #Actual Training and Testing s
+        self.model.connect_network(shape,normalize=self.batch_normalization)
         if x_val==0:
             self.model.fit(x_train,y_train)
             if x_test!=0:
@@ -149,7 +172,6 @@ class MainScreen(FloatLayout):
             self.ids.start_btn.state="normal"
             self.running=False
             return
-        '''
         if self.train_path=="":
             popup = Popup(title='Training Data Error', size_hint=(0.5, 0.5),auto_dismiss=True)
             popup.open()
@@ -157,7 +179,6 @@ class MainScreen(FloatLayout):
             self.ids.start_btn.state="normal"
             self.running=False
             return 
-        '''
         layers_n=len(self.ids.mid.children)
         layers=[]
         active_fns=[]
@@ -174,8 +195,11 @@ class MainScreen(FloatLayout):
                 self.running=False
                 return                 
             i-=1
-        return layers_n,layers.reverse(),active_fns.reverse()
         self.running=False
+        layers.reverse()
+        active_fns.reverse()
+        print(layers,active_fns)
+        return layers_n,layers,active_fns
     
     def pause(self):
         if self.running==False:
