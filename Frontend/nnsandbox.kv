@@ -13,9 +13,9 @@
                 size_hint: 0.4,1            
                 text: "Neurons: "
             TextInput:
+                id: neurons
                 multiline: False
-                size_hint: 0.3,1            
-                id:neuron
+                size_hint: 0.3,1
                 text: "1"
         Label:
             text: "Padding"
@@ -58,12 +58,16 @@
                 size_hint: 0.1,0.1
                 on_press:  root.open_browser(help=True)             
             ToggleButton:
+                id:start_btn
                 pos_hint: {"x":0,"y":.35}
                 border: 0,0,0,0
                 size_hint: 0.1,0.3
                 background_color:(0.137, 0.149, 0.161, 1.0)
                 background_normal:'Frontend/imgs/play.png'
                 background_down: 'Frontend/imgs/pause.png'
+                on_state: 
+                    if self.state=="normal": root.pause()
+                    else: root.start()           
             Button:
                 pos_hint: {"x":0.1,"y":.35}
                 border: 0,0,0,0
@@ -128,7 +132,7 @@
                 id:lr
                 text: "0.01"
                 on_text: 
-                    root.lr=lr.text
+                    root.lr=str(lr.text)
             Label:
                 text: "Weights Intialization: "
                 pos_hint: {"x":0.55,"y":0.4}
@@ -146,10 +150,12 @@
                 pos_hint: {"x":0.0,"y":0.} 
                 size_hint: 0.2,0.2
                 text: "Add Layer"
+                id: add_layer_btn
                 on_press: mid.add_layer()
             Button:
                 pos_hint: {"x":0.2,"y":0.} 
                 size_hint: 0.2,0.2
+                id: remove_layer_btn
                 text: "Remove Layer"
                 on_press: mid.remove_layer()
         #2/3 MainScreen
@@ -163,6 +169,7 @@
             cols: 3
             Button:
                 text: "Save Current Model"
+                on_press: root.save_model()
             Button:
                 text: "Visualize Training"
                 on_release: root.show_img(Train=True)
