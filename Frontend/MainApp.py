@@ -1,11 +1,16 @@
+from Backend.NeuralNetwork import NN
+from Backend.DataPreprocessing import DataProcessor,DataSplitter
 import tkinter as tk
 from tkinter import filedialog
 import os
+import time
 import kivy
 kivy.require('1.11.1') 
+from kivy.uix.popup import Popup
 from kivy.app import App
 from kivy.uix.slider import Slider
 from kivy.uix.label import Label
+from kivy.properties import ObjectProperty
 from kivy.lang.builder import Builder
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
@@ -44,6 +49,9 @@ class MainScreen(FloatLayout):
         self.validation_split=0
         self.smart_preprocess=True
         self.label_at_start=True
+        self.train_path=""
+        self.test_path=""
+        self.model=NN()
         
     def open_browser(self,tutorial=False,help=False,bug=False):
         if tutorial:
@@ -55,13 +63,17 @@ class MainScreen(FloatLayout):
     
     def get_csv_file(self,Train=False,Test=False):
         root = tk.Tk()
-        root.withdraw()
-        print(Train,Test,filedialog.askopenfilename(filetypes=[('CSV File','*.csv')]) )        
+        root.withdraw()        
+        if Train:
+            self.train_path=filedialog.askopenfilename(filetypes=[('CSV File','*.csv')])
+        if Test:
+            self.test_path=filedialog.askopenfilename(filetypes=[('CSV File','*.csv')])
     
     def get_h5_file(self):
         root = tk.Tk()
         root.withdraw()
-        print(filedialog.askopenfilename(filetypes=[('HDF5 File','*.h5')]) )
+        loaded_model_path=filedialog.askopenfilename(filetypes=[('HDF5 File','*.h5')])
+        self.load_model(loaded_model_path)
     
     def show_img(self,Train=False,Test=False):
         if Train:
@@ -89,15 +101,101 @@ class MainScreen(FloatLayout):
             self.ids.validation_split.value=0
             self.ids.label_start.active=True
             self.ids.smart_preprocess.active=True
-    
+            self.train_path=""
+            self.test_path=""
+            while(len(self.ids.mid.children)>2):
+                self.ids.mid.remove_layer()
+            for children in self.ids.mid.children:
+                children.ids.neurons.text=str(1)
+                children.ids.activation_fn.text=str("None")
+            
     def start(self):
-        self.running=True
+        layers_n,layers,active_fns=self.setup()
+        self.model=NN(
+            GPU=True,
+            layers_n=layers_n,
+            layers=layers,
+            activ_fns=active_fns,
+            loss_fn=self.loss_fn,
+            opti_tech=self.optimizer,
+            lr=self.lr,
+            epochs=self.epochs,
+            kernal_init=self.kernal_init,
+            metrics=["accuracy"]
+        )
+        shape,x_train,y_train,x_test,y_test,x_val,y_val=0,0,0,0,0,0,0
+        if self.validation_split!=0 and self.test_path=="":
+            d=DataSplitter(self.train_path,smart_preprocess=self.smart_preprocess)
         
+        #Actual Training and Testing s
+        if x_val==0:
+            self.model.fit(x_train,y_train)
+            if x_test!=0:
+                self.model.evaluate(x_test,y_test)
+        else:
+            self.model.fit(x_train,y_train,x_val=x_val,y_val=y_val)
+            if x_test!=0:
+                self.model.evaluate(x_test,y_test)
+            
+    def setup(self):
+        self.running=True
+        #Checking errors
+        try:
+            self.lr=float(self.lr)
+        except ValueError:
+            popup = Popup(title='Learning Rate Error', size_hint=(0.5, 0.5),auto_dismiss=True)
+            popup.open()
+            popup.add_widget((Label(text='Learning rate must be a number.(Genrally between 0 and 1)')))
+            self.ids.start_btn.state="normal"
+            self.running=False
+            return
+        '''
+        if self.train_path=="":
+            popup = Popup(title='Training Data Error', size_hint=(0.5, 0.5),auto_dismiss=True)
+            popup.open()
+            popup.add_widget((Label(text='Make sure training data is selected')))
+            self.ids.start_btn.state="normal"
+            self.running=False
+            return 
+        '''
+        layers_n=len(self.ids.mid.children)
+        layers=[]
+        active_fns=[]
+        i=layers_n
+        for children in self.ids.mid.children: 
+            try:
+                layers.append(int(children.ids.neurons.text))
+                active_fns.append(children.ids.activation_fn.text)
+            except ValueError:
+                popup = Popup(title='Neurons Error', size_hint=(0.5, 0.5),auto_dismiss=True)
+                popup.open()
+                popup.add_widget((Label(text=f'Number of neurons in layer {i} is not a number')))
+                self.ids.start_btn.state="normal"
+                self.running=False
+                return                 
+            i-=1
+        return layers_n,layers.reverse(),active_fns.reverse()
         self.running=False
     
     def pause(self):
+        if self.running==False:
+            pass#Do something here
+    
+    def save_model(self):
+        try:
+            file_name="MyModel"+time.strftime("%Y-%m-%d-%H-%M-%S")
+            self.model.save_model(file_name)
+            popup = Popup(title='Current model saved successfully !!', size_hint=(0.5, 0.5),auto_dismiss=True)
+            popup.open()
+            popup.add_widget((Label(text='Model Saved in current directory with name {file_name}')))
+        except ValueError:
+            popup = Popup(title='Cannot Save Model', size_hint=(0.5, 0.5),auto_dismiss=True)
+            popup.open()
+            popup.add_widget((Label(text='First Train the model before saving it !!!')))
+                            
+    def load_model(self,path):
         pass
-        
+                        
 class NNSandboxApp(App):
     def build(self):
         return MainScreen()
