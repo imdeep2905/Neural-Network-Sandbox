@@ -79,7 +79,7 @@ class MainScreen(FloatLayout):
     
     def show_img(self,Train=False,Test=False):
         if Train:
-            im = Image.open('train_history_img.jpg')
+            im = Image.open('train_history_img.png')
             im.show()    
         if Test:
             im = Image.open('test_history_img.jpg')
@@ -126,7 +126,7 @@ class MainScreen(FloatLayout):
             kernal_init=self.kernal_init,
             metrics=self.metrics
         )
-        shape,x_train,y_train,x_test,y_test,x_val,y_val=0,0,0,0,0,0,0
+        shape,x_train,y_train,x_test,y_test,x_val,y_val=None,[None],[None],[None],[None],[None],[None]
         if self.validation_split!=0 and self.test_path=="":
             d=DataSplitter(self.train_path,smart_preprocess=self.smart_preprocess)
             shape,x_train,x_test,x_val,y_val,x_test,y_test=d.get_splitted_xy(test_r=0.1,val_r=self.validation_split/100)
@@ -150,17 +150,17 @@ class MainScreen(FloatLayout):
             shape,x_test,y_test,x_val,y_val=d.get_splitted_xy(test_r=self.validation_split/100)
         self.running=False
         #Actual Training and Testing 
-        self.model.connect_network(shape,normalize=self.batch_normalization)
-        if x_val==0:
+        self.model.connect_network(shape=shape,normalize=self.batch_normalization)
+        if x_val==None:
             self.model.fit(x_train,y_train)
-            if x_test!=0:
+            if not isinstance(x_test,list):
                 self.model.evaluate(x_test,y_test)
         else:
             self.model.fit(x_train,y_train,x_val=x_val,y_val=y_val)
-            if x_test!=0:
+            if not isinstance(x_test,list):
                 self.model.evaluate(x_test,y_test)
         #Saving history
-        #self.model.train_visualize()
+        self.model.train_visualize()
         #self.model.test_visualize()
                 
     def setup(self):
