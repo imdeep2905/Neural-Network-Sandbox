@@ -3,6 +3,7 @@ from Backend.DataPreprocessing import DataProcessor,DataSplitter
 import tkinter as tk
 from tkinter import filedialog
 import os
+import traceback
 import time
 import kivy
 kivy.require('1.11.1') 
@@ -113,7 +114,12 @@ class MainScreen(FloatLayout):
             
     def start(self):
         self.running=True
+        layers_n=2
+        layers=[1,1]
+        active_fns=[None,None]
         layers_n,layers,active_fns=self.setup()
+        if layers==-1:
+            return
         self.model=NN(
             GPU=True,
             layers_n=layers_n,
@@ -133,25 +139,25 @@ class MainScreen(FloatLayout):
             #self.ids.mid.children[layers_n-1].neurons.text=str(d.cols)
         
         if self.validation_split==0 and self.test_path=="":
-            d=DataProcessor(self.train_path)
-            shape,x_train,y_train=d.get_xy(label_last= not self.label_at_start,smart_preprocess=self.smart_preprocess)
+            d=DataProcessor(self.train_path,smart_preprocess=self.smart_preprocess)
+            shape,x_train,y_train=d.get_xy(label_last= not self.label_at_start)
             #self.ids.mid.children[layers_n-1].neurons.text=str(d.cols)
         
         if self.validation_split==0 and self.test_path!="":
-            d=DataProcessor(self.train_path)
-            shape,x_train,y_train=d.get_xy(label_last= not self.label_at_start,smart_preprocess=False)
-            d=DataProcessor(self.test_path)
-            shape,x_test,y_test=d.get_xy(label_last= not self.label_at_start,smart_preprocess=False)
+            d=DataProcessor(self.train_path,smart_preprocess=False)
+            shape,x_train,y_train=d.get_xy(label_last= not self.label_at_start)
+            d=DataProcessor(self.test_path,smart_preprocess=False)
+            shape,x_test,y_test=d.get_xy(label_last= not self.label_at_start)
         
         if self.validation_split!=0 and self.test_path!="":
-            d=DataProcessor(self.train_path)
-            shape,x_train,y_train=d.get_xy(label_last=not self.label_at_start,smart_preprocess=False)
-            d=DataSplitter(self.test_path)
+            d=DataProcessor(self.train_path,smart_preprocess=False)
+            shape,x_train,y_train=d.get_xy(label_last=not self.label_at_start)
+            d=DataSplitter(self.test_path,smart_preprocess=False)
             shape,x_test,y_test,x_val,y_val=d.get_splitted_xy(test_r=self.validation_split/100)
-        self.running=False
+        
         #Actual Training and Testing 
         self.model.connect_network(shape=shape,normalize=self.batch_normalization)
-        if x_val==None:
+        if isinstance(x_val,list):
             self.model.fit(x_train,y_train)
             if not isinstance(x_test,list):
                 self.model.evaluate(x_test,y_test)
@@ -162,6 +168,7 @@ class MainScreen(FloatLayout):
         #Saving history
         self.model.train_visualize()
         #self.model.test_visualize()
+        self.running=False
                 
     def setup(self):
         self.running=True
@@ -174,14 +181,14 @@ class MainScreen(FloatLayout):
             popup.add_widget((Label(text='Learning rate must be a number.(Genrally between 0 and 1)')))
             self.ids.start_btn.state="normal"
             self.running=False
-            return
+            return -1,-1,-1
         if self.train_path=="":
             popup = Popup(title='Training Data Error', size_hint=(0.5, 0.5),auto_dismiss=True)
+            popup.add_widget((Label(text='Make sure that training data is selected')))
             popup.open()
-            popup.add_widget((Label(text='Make sure training data is selected')))
             self.ids.start_btn.state="normal"
             self.running=False
-            return 
+            return -1,-1,-1
         layers_n=len(self.ids.mid.children)
         layers=[]
         active_fns=[]
@@ -196,9 +203,8 @@ class MainScreen(FloatLayout):
                 popup.add_widget((Label(text=f'Number of neurons in layer {i} is not a number')))
                 self.ids.start_btn.state="normal"
                 self.running=False
-                return                 
+                return -1,-1,-1                
             i-=1
-        self.running=False
         layers.reverse()
         active_fns.reverse()
         print(layers,active_fns)
@@ -214,7 +220,7 @@ class MainScreen(FloatLayout):
             self.model.save_model(file_name)
             popup = Popup(title='Current model saved successfully !!', size_hint=(0.5, 0.5),auto_dismiss=True)
             popup.open()
-            popup.add_widget((Label(text='Model Saved in current directory with name {file_name}')))
+            popup.add_widget((Label(text=f'Model Saved in current directory with name {file_name}')))
         except ValueError:
             popup = Popup(title='Cannot Save Model', size_hint=(0.5, 0.5),auto_dismiss=True)
             popup.open()
@@ -226,3 +232,11 @@ class MainScreen(FloatLayout):
 class NNSandboxApp(App):
     def build(self):
         return MainScreen()
+
+class ExceptionHandler(App):
+    def __init__(self, text="",**kwargs ):
+        super().__init__(**kwargs)
+        self.text=text
+
+    def build(self):
+        return Label(size=(700,700),text=self.text)
