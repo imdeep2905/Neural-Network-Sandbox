@@ -158,16 +158,16 @@
                 id: remove_layer_btn
                 text: "Remove Layer"
                 on_press: mid.remove_layer()
+            Label:
+                pos_hint: {"x":0.4,"y":0.}
+                size_hint: 0.12,0.2
+                text: "Batch Normalization"
             CheckBox:
-                pos_hint: {"x":0.4,"y":0.} 
+                pos_hint: {"x":0.52,"y":0.} 
                 size_hint: 0.03,0.2                
                 active: True
                 on_active: root.batch_normalization=self.active
-            Label:
-                pos_hint: {"x":0.43,"y":0.}
-                size_hint: 0.1,0.2
-                text: "Batch Normalization"
-
+            
         #2/3 MainScreen
         Middle:
             id: mid
@@ -227,7 +227,9 @@
                     step: 10
                     orientation: 'horizontal'
                     on_value: 
-                        root.val_split=self.value 
+                        root.validation_split=self.value 
                 Label:
                     size_hint: 0.1,1
                     text: str(validation_split.value)+str("%")
+
+
