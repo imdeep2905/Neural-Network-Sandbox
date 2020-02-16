@@ -7,6 +7,7 @@ import traceback
 import time
 import kivy
 kivy.require('1.11.1') 
+from kivy.clock import Clock
 from kivy.uix.popup import Popup
 from kivy.app import App
 from kivy.uix.slider import Slider
@@ -53,8 +54,10 @@ class MainScreen(FloatLayout):
         self.train_path=""
         self.test_path=""
         self.batch_normalization=True
-        self.metrics=["accuracy"]
+        self.metrics=["accuracy","mse"]
+        self.stats="loss: ,val_loss: ,acc: "
         self.model=NN()
+        Clock.schedule_interval(self.update_stats,0.2)
         
     def open_browser(self,tutorial=False,help=False,bug=False):
         if tutorial:
@@ -156,6 +159,7 @@ class MainScreen(FloatLayout):
             shape,x_test,y_test,x_val,y_val=d.get_splitted_xy(test_r=self.validation_split/100)
         
         #Actual Training and Testing 
+        
         self.model.connect_network(shape=shape,normalize=self.batch_normalization)
         if isinstance(x_val,list):
             self.model.fit(x_train,y_train)
@@ -228,6 +232,13 @@ class MainScreen(FloatLayout):
                             
     def load_model(self,path):
         pass
+    
+    def update_stats(self,td):
+        with open('log.txt', 'r') as f:
+            data=f.read()
+            print(data)
+        self.ids.stats.text=str(data)
+
                         
 class NNSandboxApp(App):
     def build(self):
