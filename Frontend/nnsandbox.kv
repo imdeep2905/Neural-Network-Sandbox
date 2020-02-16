@@ -64,10 +64,10 @@
                 size_hint: 0.1,0.3
                 background_color:(0.137, 0.149, 0.161, 1.0)
                 background_normal:'Frontend/imgs/play.png'
-                background_down: 'Frontend/imgs/pause.png'
+                background_down: 'Frontend/imgs/play.png'
                 on_state: 
-                    if self.state=="normal": root.pause()
-                    else: root.start()           
+                    root.update_stats(text="Now Training Model....")
+                    root.start()
             Button:
                 pos_hint: {"x":0.1,"y":.35}
                 border: 0,0,0,0
