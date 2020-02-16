@@ -28,8 +28,8 @@
             Spinner:
                 size_hint: 0.3,1
                 id: activation_fn
-                text: "None"                   #default value showed
-                values: ["None","sigmoid","relu","elu","selu","tanh","softmax","linear"]       #list of values to show
+                text: "sigmoid"                   #default value showed
+                values: ["sigmoid","relu","elu","selu","tanh","softmax","linear"]       #list of values to show
     
 <Middle>:
     Layer:
@@ -167,7 +167,12 @@
                 size_hint: 0.03,0.2                
                 active: True
                 on_active: root.batch_normalization=self.active
-            
+            Label:
+                id:stats
+                pos_hint: {"x":0.55,"y":0.}
+                size_hint: 0.45,0.2
+                text: ""
+
         #2/3 MainScreen
         Middle:
             id: mid
