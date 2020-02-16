@@ -82,8 +82,8 @@ class NN:
     def save_model(self,name,path="."):
         self.model.save(os.path.join(path,name+".h5"))
     
-    def load_model(self,name,path="."):
-        self.model=keras.models.load_model(os.path.join(path,name+".h5"))
+    def load_model(self,path):
+        self.model=keras.models.load_model(path)
         with open("for_frontend_use.json", 'w') as f:
             json.dump(self.model.to_json(),f)
         
