@@ -13,9 +13,9 @@ class DataProcessor:
         self.cols=0
         self.smart_preprocess=smart_preprocess
     
-    def get_xy(self,label_last=True,):
+    def get_xy(self,label_last=True):
         if self.smart_preprocess:
-            self.cols=self.smart_preprocess()
+            self.cols=self.smart_preprocess_()
         # Currently only single label is supported
         #self.data=self.data.drop(["thal"],axis=1) #TESTING
         if label_last:
@@ -28,7 +28,7 @@ class DataProcessor:
         shape=[self.x_data.shape[1],]
         return shape,self.x_data,self.y_data
     
-    def smart_preprocess(self,factor=3):
+    def smart_preprocess_(self,factor=3):
         # *** Experimental ***
         #this fn will replace missing values and convert non-numeric values to numeric
         #Dropping unnecessary cols and non numeric -> numeric
