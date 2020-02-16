@@ -1,6 +1,7 @@
 #Using tf,tf.keras as backend for NN
 import tensorflow as tf
 from tensorflow import keras
+import time
 from tensorflow.keras.callbacks import Callback
 #other packages
 import pandas as pd 
@@ -30,18 +31,14 @@ def get_optimizer(optimizer,lr):
         return keras.optimizers.Adadelta(learning_rate=lr)
 
 class MyLogger(Callback):
-    def __init__(self,val=False):
-        self.val=val 
         
-    def on_epoch_end(self, epoch, logs=None):
-        if self.val:
-            with open('log.txt', 'w') as f:
-                f.write('%02d %.3f\n' % (epoch, logs['loss','acc','mse']))
-        else:
-            with open('log.txt', 'w') as f:
-                f.write('%02d %.3f\n' % (epoch, logs['loss','acc','mse']))
-
-            
+    def on_epoch_end(self, epoch,logs):
+        with open('log.txt', 'w') as f:
+            stats= "Epoch: "+ str(epoch+1)
+            for key in logs:
+                stats+=" - "+str(key)+": "+str(round(logs[key],2))
+            f.write(stats)
+                
 #class NN for Neural Network
 class NN:
     def __init__(self,GPU=True,layers_n=1,layers=[1],activ_fns=["relu"],loss_fn="sparse_categorical_crossentropy",opti_tech="SGD",lr=0.01,epochs=1,kernal_init="he_normal",metrics=["accuracy"]):
@@ -74,11 +71,10 @@ class NN:
     def fit(self,x_train,y_train,x_val=[None],y_val=[None]):
         #without validation set
         if isinstance(x_val,list):
-            #,callbacks=[MyLogger(val=False)]
-            self.train_history=self.model.fit(x_train,y_train,epochs=self.epochs)
+            self.train_history=self.model.fit(x_train,y_train,epochs=self.epochs,callbacks=[MyLogger()])
         #with validation
         else:
-            self.train_history=self.model.fit(x_train,y_train,epochs=self.epochs,validation_data=(x_val,y_val))
+            self.train_history=self.model.fit(x_train,y_train,epochs=self.epochs,validation_data=(x_val,y_val),callbacks=[MyLogger()])
             
     def evaluate(self,x_test,y_test):
         self.test_history=self.model.evaluate(x_test,y_test)
