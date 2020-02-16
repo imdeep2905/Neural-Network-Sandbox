@@ -1,17 +1,13 @@
-from kivy.uix.popup import Popup
-from Frontend.MainApp import NNSandboxApp
-from kivy.uix.label import Label
-'''    
+from Frontend.MainApp import NNSandboxApp,ExceptionHandler
+import traceback
+
 if __name__ == "__main__":
     try:
-        NNSandboxApp().run()
+        app=NNSandboxApp()
+        app.run()
     except Exception as inst:
         text=str(str(type(inst))+"\n"+str(inst.args)+"\n"+"You can report this using report bug button")
         print(text)
-        popup = Popup(title='Exception Occured', size_hint=(0.5, 0.5),auto_dismiss=True)
-        popup.open()
-        popup.add_widget((Label(text=text)))
-'''        
+        print(traceback.print_tb(inst.__traceback__)) #For debugging
+        ExceptionHandler(text=text+"\n Close the App and try again").run()
         
-if __name__ == "__main__":
-    NNSandboxApp().run()        
