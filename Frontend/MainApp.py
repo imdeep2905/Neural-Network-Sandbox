@@ -10,6 +10,7 @@ kivy.require('1.11.1')
 from kivy.clock import Clock
 from kivy.uix.popup import Popup
 from kivy.app import App
+from kivy.graphics import Ellipse
 from kivy.uix.slider import Slider
 from kivy.uix.label import Label
 from kivy.properties import ObjectProperty
@@ -29,7 +30,11 @@ import webbrowser
 from PIL import Image
 
 class Layer(BoxLayout):
-    pass
+    def draw_neurons(self):
+        self.canvas.add(Color(0.33,0.6,0.3))
+        for i in range (int(self.ids.neurons.text)):
+            print(i)
+            self.canvas.add(Ellipse(size=(100,100),pos_hint={"x":0.5,"y":0.5}))
 
 class Middle(BoxLayout):
     def add_layer(self):
@@ -56,7 +61,7 @@ class MainScreen(FloatLayout):
         self.batch_normalization=True
         self.metrics=["accuracy","mse"]
         self.stats="loss: ,val_loss: ,acc: "
-        self.model=NN()
+        self.model=0
         
     def open_browser(self,tutorial=False,help=False,bug=False):
         if tutorial:
@@ -82,11 +87,19 @@ class MainScreen(FloatLayout):
     
     def show_img(self,Train=False,Test=False):
         if Train:
+            self.model.train_visualize()
             im = Image.open('train_history_img.png')
             im.show()    
         if Test:
-            im = Image.open('test_history_img.jpg')
-            im.show()    
+            if self.test_path=="":
+                popup = Popup(title='Error', size_hint=(0.5, 0.5),auto_dismiss=True)
+                popup.add_widget((Label(text='Make sure that model is tested before visualizing testing data')))
+                popup.open()
+            else:   
+                self.model.test_visualize() 
+                im = Image.open('test_history_img.png')
+                im.show()
+                    
     def change_epoch(self,Incr=False,Decr=False):
         val=int(self.ids.epochs.text)
         if Incr:
@@ -136,42 +149,19 @@ class MainScreen(FloatLayout):
             kernal_init=self.kernal_init,
             metrics=self.metrics
         )
-        shape,x_train,y_train,x_test,y_test,x_val,y_val=None,[None],[None],[None],[None],[None],[None]
-        if self.validation_split!=0 and self.test_path=="":
-            d=DataSplitter(self.train_path,smart_preprocess=self.smart_preprocess)
-            shape,x_train,x_test,x_val,y_val,x_test,y_test=d.get_splitted_xy(test_r=0.1,val_r=self.validation_split/100)
-            #self.ids.mid.children[layers_n-1].neurons.text=str(d.cols)
-        
-        if self.validation_split==0 and self.test_path=="":
-            d=DataProcessor(self.train_path,smart_preprocess=self.smart_preprocess)
-            shape,x_train,y_train=d.get_xy(label_last= not self.label_at_start)
-            #self.ids.mid.children[layers_n-1].neurons.text=str(d.cols)
-        
-        if self.validation_split==0 and self.test_path!="":
-            d=DataProcessor(self.train_path,smart_preprocess=False)
-            shape,x_train,y_train=d.get_xy(label_last= not self.label_at_start)
-            d=DataProcessor(self.test_path,smart_preprocess=False)
-            shape,x_test,y_test=d.get_xy(label_last= not self.label_at_start)
-        
-        if self.validation_split!=0 and self.test_path!="":
-            d=DataProcessor(self.train_path,smart_preprocess=False)
-            shape,x_train,y_train=d.get_xy(label_last=not self.label_at_start)
-            d=DataSplitter(self.test_path,smart_preprocess=False)
-            shape,x_test,y_test,x_val,y_val=d.get_splitted_xy(test_r=self.validation_split/100)
-        
-        #Actual Training and Testing 
-        self.model.connect_network(shape=shape,normalize=self.batch_normalization)
-        if isinstance(x_val,list):
-            self.model.fit(x_train,y_train)
-            if not isinstance(x_test,list):
-                self.model.evaluate(x_test,y_test)
+        shape,x_train,y_train,x_test,y_test=None,[None],[None],[None],[None]
+        d=DataProcessor(self.train_path,smart_preprocess=self.smart_preprocess)
+        shape,x_train,y_train=d.get_xy(label_last= not self.label_at_start)
+        if self.test_path!="":
+            d=DataProcessor(self.test_path,smart_preprocess=self.smart_preprocess)
+            shape,x_test,y_test=d.get_xy(label_last=not self.label_at_start)
+            self.model.connect_network(shape=shape,normalize=self.batch_normalization)
+            self.model.fit(x_train,y_train,val_split=self.validation_split/100)
+            self.model.evaluate(x_test,y_test)
         else:
-            self.model.fit(x_train,y_train,x_val=x_val,y_val=y_val)
-            if not isinstance(x_test,list):
-                self.model.evaluate(x_test,y_test)
+            self.model.connect_network(shape=shape,normalize=self.batch_normalization)             
+            self.model.fit(x_train,y_train,val_split=self.validation_split/100)         
         #Saving history
-        self.model.train_visualize()
-        #self.model.test_visualize()
         self.update_stats()
         self.running=False
                 
