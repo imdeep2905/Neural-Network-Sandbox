@@ -84,6 +84,7 @@ class NN:
     def test_visualize(self,size_x=8,size_y=5):
         #not working
         pd.DataFrame(self.test_history).plot(figsize=(size_x,size_y)) 
+        print(self.test_history)
         plt.grid(True)
         plt.savefig("test_history_img")    
         
