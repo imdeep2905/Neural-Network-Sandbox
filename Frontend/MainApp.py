@@ -62,6 +62,7 @@ class MainScreen(FloatLayout):
         self.metrics=["accuracy","mse"]
         self.stats="loss: ,val_loss: ,acc: "
         self.model=0
+        self.gpu_use=True
         
     def open_browser(self,tutorial=False,help=False,bug=False):
         if tutorial:
@@ -138,7 +139,7 @@ class MainScreen(FloatLayout):
         if layers==-1:
             return
         self.model=NN(
-            GPU=True,
+            GPU=self.gpu_use,
             layers_n=layers_n,
             layers=layers,
             activ_fns=active_fns,
@@ -204,10 +205,6 @@ class MainScreen(FloatLayout):
         active_fns.reverse()
         print(layers,active_fns)
         return layers_n,layers,active_fns
-    
-    def pause(self):
-        if self.running==False:
-            pass#Do something here
     
     def save_model(self):
         try:
