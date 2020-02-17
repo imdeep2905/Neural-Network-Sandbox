@@ -169,8 +169,8 @@
                 on_active: root.batch_normalization=self.active
             Label:
                 id:stats
-                pos_hint: {"x":0.55,"y":0.}
-                size_hint: 0.45,0.2
+                pos_hint: {"x":0.44,"y":0.}
+                size_hint: 0.45,0.45
                 text: ""
 
         #2/3 MainScreen
@@ -196,6 +196,7 @@
                 on_release: root.get_h5_file()
             Button:
                 text: "Visualize Testing"
+                on_release: root.show_img(Test=True)
             Button:
                 text: "Browse testing data(*.csv)"
                 on_release: root.get_csv_file(Test=True)
