@@ -44,141 +44,127 @@
                 pos: self.pos
                 size: self.size
         #1/3 MainScreen
-        FloatLayout:
+        StackLayout:
             pos_hint: {"x":0,"y":0.7}
-            size_hint:1,0.3
+            size_hint: 1,0.3
             Button:
                 text: "Readme"
-                pos_hint: {"x":0.,"y":.9}
-                size_hint: 0.1,0.1
+                size_hint: 0.15,0.2
                 on_press:  root.open_browser(tutorial=True)             
             Button:
                 text: "Help"
-                pos_hint: {"x":0.1,"y":.9}
-                size_hint: 0.1,0.1
+                size_hint: 0.15,0.2
                 on_press:  root.open_browser(help=True)             
-            ToggleButton:
-                id:start_btn
-                pos_hint: {"x":0,"y":.35}
-                border: 0,0,0,0
-                size_hint: 0.1,0.3
-                background_color:(0.137, 0.149, 0.161, 1.0)
-                background_normal:'Frontend/imgs/play.png'
-                background_down: 'Frontend/imgs/play.png'
-                on_state: 
-                    root.update_stats(text="Now Training Model....")
-                    root.start()
-            Button:
-                pos_hint: {"x":0.1,"y":.35}
-                border: 0,0,0,0
-                size_hint: 0.1,0.3
-                background_normal:'Frontend/imgs/reset.png'
-                on_press: root.reset()
             Label:
                 text: "Optimization Technique: "
-                pos_hint: {"x":0.2,"y":0.8}
-                size_hint: 0.2,0.2
+                size_hint: 0.15,0.2
             Spinner:
-                pos_hint: {"x":0.4,"y":0.8}
                 size_hint: 0.2,0.2
                 id: optimizer
                 text: "SGD"                   #default value showed
                 values: ["SGD","RMSprop","Adagrad","Adam","Adamax","Nadam","Adadelta"]       #list of values to show
                 on_text:
                     root.optimizer=optimizer.text
-
             Label:
                 text: "Loss Function: "
-                pos_hint: {"x":0.6,"y":0.8}
-                size_hint: 0.2,0.2
+                size_hint: 0.15,0.2
             Spinner:
-                pos_hint: {"x":0.8,"y":0.8}
                 size_hint: 0.2,0.2
                 id: loss_fn
                 text: "sparse_categorical_crossentropy"                   #default value showed
                 values: ["sparse_categorical_crossentropy","binary_crossentropy","categorical_crossentropy","mean_squared_error","mean_absolute_error","huber_loss","cosine_proximity","poisson"]       #list of values to show
                 on_text:
                     root.loss_fn=loss_fn.text
-            Label:
-                pos_hint: {"x":0.2,"y":0.5}
-                size_hint: 0.05,0.05            
-                text: "Epochs: "
-            Label:
-                pos_hint: {"x":0.25,"y":0.5}
-                size_hint: 0.05,0.05            
-                id:epochs
-                text: "1"
+            
             Button:
-                pos_hint: {"x":0.30,"y":0.5}
-                size_hint: 0.025,0.05
-                text: "+"
-                on_press: 
-                    root.change_epoch(Incr=True)
+                size_hint: 0.15,0.2
+                text: "Add Layer"
+                id: add_layer_btn
+                on_press: mid.add_layer()
             Button:
-                pos_hint: {"x":0.325,"y":0.5}
-                size_hint: 0.025,0.05
-                text: "-"
-                on_press: 
-                    root.change_epoch(Decr=True)
-            Label:
-                pos_hint: {"x":0.35,"y":0.45}
-                size_hint: 0.1,0.2            
-                text: "Learning rate: "
-            TextInput:
-                multiline:False
-                id: lr
-                pos_hint: {"x":0.45,"y":0.45}
-                size_hint: 0.1,0.15            
-                id:lr
-                text: "0.01"
-                on_text: 
-                    root.lr=str(lr.text)
+                size_hint: 0.15,0.2
+                id: remove_layer_btn
+                text: "Remove Layer"
+                on_press: mid.remove_layer()
             Label:
                 text: "Weights Intialization: "
-                pos_hint: {"x":0.55,"y":0.4}
-                size_hint: 0.2,0.2
+                size_hint: 0.15,0.2
             Spinner:
-                pos_hint: {"x":0.75,"y":0.4}
                 size_hint: 0.2,0.2
                 id: kernal_init
                 text: "he_normal"                   #default value showed
                 values: ["he_normal","he_uniform","lecun_normal","lecun_uniform","glorot_normal","glorot_uniform","RandomNormal","RandomUniform","Orthogonal"]       #list of values to show
                 on_text:
                     root.kernal_init=kernal_init.text
+            Label:
+                size_hint: 0.075,0.2            
+                text: "Learning rate: "
+            TextInput:
+                multiline:False
+                id: lr
+                size_hint: 0.075,0.2            
+                id:lr
+                text: "0.01"
+                on_text: 
+                    root.lr=str(lr.text)
+            Label:
+                size_hint: 0.1,0.2            
+                text: "Epochs: "
+            Label:
+                size_hint: 0.05,0.2            
+                id:epochs
+                text: "1"
+            Button:
+                size_hint: 0.025,0.2
+                text: "+"
+                on_press: 
+                    root.change_epoch(Incr=True)
+            Button:
+                size_hint: 0.025,0.2
+                text: "-"
+                on_press: 
+                    root.change_epoch(Decr=True)
                     
             Button:
-                pos_hint: {"x":0.0,"y":0.} 
-                size_hint: 0.2,0.2
-                text: "Add Layer"
-                id: add_layer_btn
-                on_press: mid.add_layer()
+                id:start_btn
+                border: 0,0,0,0
+                size_hint: 0.1,0.3
+                background_color:(0.137, 0.149, 0.161, 1.0)
+                background_normal :'Frontend/imgs/play.png'
+                on_press: 
+                    root.update_stats(text="Now Training Model....")
+                    root.start()
             Button:
-                pos_hint: {"x":0.2,"y":0.} 
-                size_hint: 0.2,0.2
-                id: remove_layer_btn
-                text: "Remove Layer"
-                on_press: mid.remove_layer()
+                border: 0,0,0,0
+                size_hint: 0.1,0.3
+                background_normal:'Frontend/imgs/reset.png'
+                on_press: root.reset()
             Label:
-                pos_hint: {"x":0.4,"y":0.}
-                size_hint: 0.12,0.2
+                size_hint: 0.2,0.3
                 text: "Batch Normalization"
             CheckBox:
-                pos_hint: {"x":0.52,"y":0.} 
-                size_hint: 0.03,0.2                
+                size_hint: 0.05,0.3                
                 active: True
                 on_active: root.batch_normalization=self.active
             Label:
+                size_hint: 0.2,0.3
+                text: "Use GPU"
+            CheckBox:
+                size_hint: 0.05,0.3                
+                active: True
+                on_active: root.gpu_use=self.active
+
+            Label:
                 id:stats
-                pos_hint: {"x":0.44,"y":0.}
-                size_hint: 0.45,0.45
+                size_hint: 1,0.1
                 text: ""
 
-        #2/3 MainScreen
+        #2/3 MainScreen ---> DONE Don't Touch
         Middle:
             id: mid
             pos_hint: {"x":0,"y":.15}
             size_hint:1,0.55
-        #3/3 MainScreen ---> Done
+        #3/3 MainScreen ---> Done Don't Touch
         GridLayout:
             size_hint: 1,0.15 
             cols: 3
