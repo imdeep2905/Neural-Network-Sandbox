@@ -1,1 +1,0 @@
-Epoch: 1 - loss: nan - accuracy: 0.16 - mse: nan - val_loss: nan - val_accuracy: 0.2 - val_mse: nan
