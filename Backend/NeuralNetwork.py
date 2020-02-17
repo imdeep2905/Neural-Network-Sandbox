@@ -64,17 +64,12 @@ class NN:
             if normalize==True:
                 self.model.add(keras.layers.BatchNormalization())
             self.model.add(keras.layers.Dense(self.neuron_layers[i],activation=self.activation_layers[i],kernel_initializer=self.kernal_init))
-        #Compiling Model 
+        #Compiling Model    
         self.model.compile(loss=self.loss_fn,optimizer=get_optimizer(self.optimizer,self.lr),metrics=self.metrics)
         print(self.model.summary()) #for debugging 
     
-    def fit(self,x_train,y_train,x_val=[None],y_val=[None]):
-        #without validation set
-        if isinstance(x_val,list):
-            self.train_history=self.model.fit(x_train,y_train,epochs=self.epochs,callbacks=[MyLogger()])
-        #with validation
-        else:
-            self.train_history=self.model.fit(x_train,y_train,epochs=self.epochs,validation_data=(x_val,y_val),callbacks=[MyLogger()])
+    def fit(self,x_train,y_train,val_split=0.0):
+        self.train_history=self.model.fit(x_train,y_train,epochs=self.epochs,validation_split=val_split,callbacks=[MyLogger()],shuffle=True)
             
     def evaluate(self,x_test,y_test):
         self.test_history=self.model.evaluate(x_test,y_test)
@@ -82,13 +77,15 @@ class NN:
     def train_visualize(self,size_x=8,size_y=5):
         pd.DataFrame(self.train_history.history).plot(figsize=(size_x,size_y)) 
         plt.grid(True)
+        plt.xlabel('epochs')
+        plt.ylabel('value')
         plt.savefig("train_history_img")
     
     def test_visualize(self,size_x=8,size_y=5):
         #not working
-        pd.DataFrame(self.test_history.history).plot(figsize=(size_x,size_y)) 
+        pd.DataFrame(self.test_history).plot(figsize=(size_x,size_y)) 
         plt.grid(True)
-        plt.savefig("test_history_img",format='jpg')    
+        plt.savefig("test_history_img")    
         
     def save_model(self,name,path="."):
         self.model.save(os.path.join(path,name+".h5"))
