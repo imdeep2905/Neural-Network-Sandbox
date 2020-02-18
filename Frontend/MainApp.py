@@ -64,6 +64,7 @@ class MainScreen(FloatLayout):
         self.model=0
         self.gpu_use=True
         self.shuffle_data=True
+        Clock.schedule_once(self.greet_user,0.1)
         
     def open_browser(self,tutorial=False,help=False,bug=False):
         if tutorial:
@@ -89,18 +90,24 @@ class MainScreen(FloatLayout):
     
     def show_img(self,Train=False,Test=False):
         if Train:
-            self.model.train_visualize()
-            im = Image.open('train_history_img.png')
-            im.show()    
+            if self.train_path=="":
+                popup = Popup(title='Error', size_hint=(0.5, 0.5),auto_dismiss=True)
+                popup.add_widget((Label(text='Make sure that model is trained before visualizing training data')))
+                popup.open()
+            else:
+                self.model.train_visualize()
+                im = Image.open('train_history_img.png')
+                im.show()    
         if Test:
             if self.test_path=="":
                 popup = Popup(title='Error', size_hint=(0.5, 0.5),auto_dismiss=True)
-                popup.add_widget((Label(text='Make sure that model is tested before visualizing testing data')))
+                popup.add_widget((Label(text='Make sure that model is tested before getting testing stats')))
                 popup.open()
             else:   
-                self.model.test_visualize() 
-                im = Image.open('test_history_img.png')
-                im.show()
+                text=self.model.get_test_stats()
+                popup = Popup(title='Training Stats', size_hint=(0.5, 0.5),auto_dismiss=True)
+                popup.add_widget((Label(text=text)))
+                popup.open()                
                     
     def change_epoch(self,Incr=False,Decr=False):
         val=int(self.ids.epochs.text)
@@ -113,6 +120,9 @@ class MainScreen(FloatLayout):
             
     def reset(self):
         if not self.running:
+            with open('log.txt','w') as f:
+                f.write("")
+            self.update_stats()
             self.ids.epochs.text=str(1)
             self.ids.lr.text=str(0.01)
             self.ids.optimizer.text=str("SGD")
@@ -229,12 +239,25 @@ class MainScreen(FloatLayout):
     def load_model(self,path):
         pass
     
-    def update_stats(self,text=""):
+    def update_stats(self,text="Training Stats: "):
         with open('log.txt', 'r') as f:
             data=f.read()
             #print(data)
         self.ids.stats.text=text+str(data)
 
+    def greet_user(self,td):
+        popup = Popup(title='Welcome to Neural Network SandBox !!!', size_hint=(0.75, 0.75),auto_dismiss=True)
+        popup.open()
+        greet_text='''
+        - We Recommend you to read 'Readme' first before starting.
+        - Feel Free to click 'Help' in case if you dont understand something.
+        - Please be patient after pressing 'start' button because App will not 
+          respond while training the model.
+        - After training model training stats will be updated automatically.
+        - Happy Learning !!!
+        '''
+        popup.add_widget((Label(text=greet_text)))
+        
                         
 class NNSandboxApp(App):
     def build(self):
