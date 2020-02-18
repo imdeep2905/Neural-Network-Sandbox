@@ -43,6 +43,7 @@ class MyLogger(Callback):
 class NN:
     def __init__(self,GPU=True,layers_n=1,layers=[1],activ_fns=["relu"],loss_fn="sparse_categorical_crossentropy",opti_tech="SGD",lr=0.01,epochs=1,kernal_init="he_normal",metrics=["accuracy"]):
         set_device(GPU=GPU)
+        keras.backend.clear_session()
         self.total_layers=layers_n          #Num of layers 
         self.neuron_layers=layers           #Num of neurons in each layer -list
         self.activation_layers=activ_fns    #Activation fn of each layer -list
@@ -91,6 +92,4 @@ class NN:
     
     def load_model(self,path):
         self.model=keras.models.load_model(path)
-        with open("for_frontend_use.json", 'w') as f:
-            json.dump(self.model.to_json(),f)
-        
+        return self.model.to_json() #returns model config in json form
