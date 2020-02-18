@@ -1,1 +1,0 @@
-Epoch: 12 - loss: 0.47 - accuracy: 0.77 - mse: 0.15 - val_loss: 0.52 - val_accuracy: 0.77 - val_mse: 0.17
