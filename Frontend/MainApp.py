@@ -6,6 +6,7 @@ import os
 import traceback
 import time
 import kivy
+import json
 kivy.require('1.11.1') 
 from kivy.clock import Clock
 from kivy.uix.popup import Popup
@@ -60,8 +61,8 @@ class MainScreen(FloatLayout):
         self.test_path=""
         self.batch_normalization=True
         self.metrics=["accuracy","mse"]
-        self.stats="loss: ,val_loss: ,acc: "
-        self.model=0
+        self.stats=""
+        self.model=NN(GPU=False)
         self.gpu_use=True
         self.shuffle_data=True
         Clock.schedule_once(self.greet_user,0.1)
@@ -141,7 +142,7 @@ class MainScreen(FloatLayout):
             self.batch_normalization=True
             self.metrics=["accuracy","mse"]
             self.stats="loss: ,val_loss: ,acc: "
-            self.model=0
+            self.model=NN(GPU=False)
             self.gpu_use=True
             self.shuffle_data=True
 
@@ -230,15 +231,39 @@ class MainScreen(FloatLayout):
             self.model.save_model(file_name)
             popup = Popup(title='Current model saved successfully !!', size_hint=(0.5, 0.5),auto_dismiss=True)
             popup.open()
-            popup.add_widget((Label(text=f'Model Saved in current directory with name {file_name}')))
+            popup.add_widget((Label(text=f'Model Saved in current directory with name\n {file_name}.h5\nRename the file to make sense of it.')))
         except ValueError:
             popup = Popup(title='Cannot Save Model', size_hint=(0.5, 0.5),auto_dismiss=True)
             popup.open()
             popup.add_widget((Label(text='First Train the model before saving it !!!')))
                             
     def load_model(self,path):
-        pass
-    
+        json_data=self.model.load_model(path)
+        json_data=json.loads(json_data)
+        layers_data=json_data["config"]['layers']
+        layers_n=1
+        layers=[layers_data[0]["config"]["batch_input_shape"][1]]
+        activation_fns=["sigmoid"]
+        for layer in layers_data:
+            if layer["class_name"]=="BatchNormalization":
+                self.batch_normalization=True
+                self.ids.batch_norm.active=True
+            if layer["class_name"]=="Dense":
+                layers_n+=1
+                layers.append(layer["config"]["units"])
+                activation_fns.append(layer["config"]["activation"])
+            if layer["class_name"]=="Flatten":
+                pass
+        for i in range(layers_n-2):
+            self.ids.mid.add_layer()
+        layers.reverse()
+        activation_fns.reverse()
+        i=0
+        for children in self.ids.mid.children: 
+            children.ids.neurons.text=str(layers[i])
+            children.ids.activation_fn.text=str(activation_fns[i])
+            i+=1
+
     def update_stats(self,text="Training Stats: "):
         with open('log.txt', 'r') as f:
             data=f.read()
