@@ -163,8 +163,8 @@
             
             Label:
                 id:stats
-                size_hint: 1,0.1
-                text: ""
+                size_hint: 1,0.2
+                text: "Training Stats: "
 
         #2/3 MainScreen ---> DONE Don't Touch
         Middle:
@@ -188,7 +188,7 @@
                 text: "Load Existing Model"
                 on_release: root.get_h5_file()
             Button:
-                text: "Visualize Testing"
+                text: "Testing Stats"
                 on_release: root.show_img(Test=True)
             Button:
                 text: "Browse testing data(*.csv)"
