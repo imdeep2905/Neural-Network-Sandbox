@@ -81,13 +81,11 @@ class NN:
         plt.ylabel('value')
         plt.savefig("train_history_img")
     
-    def test_visualize(self,size_x=8,size_y=5):
+    def get_test_stats(self):
         #not working
-        pd.DataFrame(self.test_history).plot(figsize=(size_x,size_y)) 
-        print(self.test_history)
-        plt.grid(True)
-        plt.savefig("test_history_img")    
-        
+        stats="Loss: " + str(self.test_history[0]) +"\nAccuracy: " +str(self.test_history[1]) + "\nMSE: " + str(self.test_history[2])
+        return stats
+            
     def save_model(self,name,path="."):
         self.model.save(os.path.join(path,name+".h5"))
     
