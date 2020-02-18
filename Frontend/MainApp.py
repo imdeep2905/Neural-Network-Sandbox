@@ -63,6 +63,7 @@ class MainScreen(FloatLayout):
         self.stats="loss: ,val_loss: ,acc: "
         self.model=0
         self.gpu_use=True
+        self.shuffle_data=True
         
     def open_browser(self,tutorial=False,help=False,bug=False):
         if tutorial:
@@ -127,6 +128,13 @@ class MainScreen(FloatLayout):
             for children in self.ids.mid.children:
                 children.ids.neurons.text=str(1)
                 children.ids.activation_fn.text=str("None")
+            self.batch_normalization=True
+            self.metrics=["accuracy","mse"]
+            self.stats="loss: ,val_loss: ,acc: "
+            self.model=0
+            self.gpu_use=True
+            self.shuffle_data=True
+
             
     def start(self):
         with open('log.txt','w') as f:
@@ -157,11 +165,11 @@ class MainScreen(FloatLayout):
             d=DataProcessor(self.test_path,smart_preprocess=self.smart_preprocess)
             shape,x_test,y_test=d.get_xy(label_last=not self.label_at_start)
             self.model.connect_network(shape=shape,normalize=self.batch_normalization)
-            self.model.fit(x_train,y_train,val_split=self.validation_split/100)
+            self.model.fit(x_train,y_train,val_split=self.validation_split/100,shuffle=self.shuffle_data)
             self.model.evaluate(x_test,y_test)
         else:
             self.model.connect_network(shape=shape,normalize=self.batch_normalization)             
-            self.model.fit(x_train,y_train,val_split=self.validation_split/100)         
+            self.model.fit(x_train,y_train,val_split=self.validation_split/100,shuffle=self.shuffle_data)         
         #Saving history
         self.update_stats()
         self.running=False

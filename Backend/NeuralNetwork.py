@@ -68,8 +68,8 @@ class NN:
         self.model.compile(loss=self.loss_fn,optimizer=get_optimizer(self.optimizer,self.lr),metrics=self.metrics)
         print(self.model.summary()) #for debugging 
     
-    def fit(self,x_train,y_train,val_split=0.0):
-        self.train_history=self.model.fit(x_train,y_train,epochs=self.epochs,validation_split=val_split,callbacks=[MyLogger()],shuffle=True)
+    def fit(self,x_train,y_train,val_split=0.0,shuffle=True):
+        self.train_history=self.model.fit(x_train,y_train,epochs=self.epochs,validation_split=val_split,callbacks=[MyLogger()],shuffle=shuffle)
             
     def evaluate(self,x_test,y_test):
         self.test_history=self.model.evaluate(x_test,y_test)
