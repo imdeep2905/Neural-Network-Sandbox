@@ -10,14 +10,17 @@
         BoxLayout:
             size_hint:1,0.1
             Label:
-                size_hint: 0.4,1            
+                size_hint: 0.7,1            
                 text: "Neurons: "
+                font_size: 0.05 * self.height + 0.08 * self.width
             TextInput:
                 id: neurons
                 multiline: False
                 size_hint: 0.3,1
                 text: "1"
+                font_size: 0.1 * self.height + 0.1 * self.width
         Label:
+            #Animation will be here 
             text: "Padding"
             size_hint: 1,0.8
         BoxLayout:
@@ -25,11 +28,13 @@
             Label:
                 size_hint: 0.7,1
                 text : "Activation : "
+                font_size: 0.05 * self.height + 0.08 * self.width
             Spinner:
                 size_hint: 0.3,1
                 id: activation_fn
-                text: "sigmoid"                   #default value showed
-                values: ["sigmoid","relu","elu","selu","tanh","softmax","linear"]       #list of values to show
+                text: "sigmoid"                   
+                font_size: 0.1 * self.height + 0.1 * self.width
+                values: ["sigmoid","relu","elu","selu","tanh","softmax","linear"]       
     
 <Middle>:
     Layer:
@@ -50,28 +55,34 @@
             Button:
                 text: "Readme"
                 size_hint: 0.15,0.2
+                font_size: 0.06 * self.height + 0.1 * self.width
                 on_press:  root.open_browser(tutorial=True)             
             Button:
                 text: "Help"
                 size_hint: 0.15,0.2
+                font_size: 0.06 * self.height + 0.1 * self.width
                 on_press:  root.open_browser(help=True)             
             Label:
                 text: "Optimization Technique: "
+                font_size: 0.058 * self.height +  0.079 * self.width
                 size_hint: 0.15,0.2
             Spinner:
                 size_hint: 0.2,0.2
                 id: optimizer
                 text: "SGD"                   #default value showed
+                font_size: 0.04 * self.height +  0.08 * self.width
                 values: ["SGD","RMSprop","Adagrad","Adam","Adamax","Nadam","Adadelta"]       #list of values to show
                 on_text:
                     root.optimizer=optimizer.text
             Label:
                 text: "Loss Function: "
+                font_size: 0.06 * self.height +  0.1 * self.width
                 size_hint: 0.15,0.2
             Spinner:
                 size_hint: 0.2,0.2
                 id: loss_fn
-                text: "sparse_categorical_crossentropy"                   #default value showed
+                text: "sparse_categorical_crossentropy"             
+                font_size: 0.027 * self.height + 0.054 * self.width     
                 values: ["sparse_categorical_crossentropy","binary_crossentropy","categorical_crossentropy","mean_squared_error","mean_absolute_error","huber_loss","cosine_proximity","poisson"]       #list of values to show
                 on_text:
                     root.loss_fn=loss_fn.text
@@ -80,48 +91,58 @@
                 size_hint: 0.15,0.2
                 text: "Add Layer"
                 id: add_layer_btn
+                font_size: 0.055 * self.height + 0.092 * self.width
                 on_press: mid.add_layer()
             Button:
                 size_hint: 0.15,0.2
                 id: remove_layer_btn
                 text: "Remove Layer"
+                font_size: 0.055 * self.height + 0.092 * self.width
                 on_press: mid.remove_layer()
             Label:
                 text: "Weights Intialization: "
                 size_hint: 0.15,0.2
+                font_size: 0.06 * self.height + 0.08 * self.width
             Spinner:
                 size_hint: 0.2,0.2
                 id: kernal_init
                 text: "he_normal"                   #default value showed
+                font_size: 0.058 * self.height + 0.086 * self.width
                 values: ["he_normal","he_uniform","lecun_normal","lecun_uniform","glorot_normal","glorot_uniform","RandomNormal","RandomUniform","Orthogonal"]       #list of values to show
                 on_text:
-                    root.kernal_init=kernal_init.text
+                    root.kernal_init=kernal_init.text            
             Label:
-                size_hint: 0.075,0.2            
+                size_hint: 0.095,0.2            
                 text: "Learning rate: "
+                font_size: 0.11 * self.height + 0.11 * self.width
             TextInput:
                 multiline:False
                 id: lr
-                size_hint: 0.075,0.2            
+                size_hint: 0.055,0.2            
                 id:lr
                 text: "0.01"
+                font_size: 0.2 * self.height + 0.2 * self.width
                 on_text: 
                     root.lr=str(lr.text)
             Label:
                 size_hint: 0.1,0.2            
+                font_size: 0.1 * self.height + 0.12 * self.width
                 text: "Epochs: "
             Label:
                 size_hint: 0.05,0.2            
                 id:epochs
                 text: "1"
+                font_size: 0.2 * self.height + 0.2 * self.width
             Button:
                 size_hint: 0.025,0.2
                 text: "+"
+                font_size: 0.2 * self.height + 0.2 * self.width
                 on_press: 
                     root.change_epoch(Incr=True)
             Button:
                 size_hint: 0.025,0.2
                 text: "-"
+                font_size: 0.2 * self.height + 0.2 * self.width
                 on_press: 
                     root.change_epoch(Decr=True)
                     
@@ -142,6 +163,7 @@
             Label:
                 size_hint: 0.2,0.3
                 text: "Batch Normalization"
+                font_size: 0.05 * self.height + 0.078 * self.width
             CheckBox:
                 id:batch_norm
                 size_hint: 0.05,0.3                
@@ -150,6 +172,7 @@
             Label:
                 size_hint: 0.2,0.3
                 text: "Use GPU"
+                font_size: 0.05 * self.height + 0.078 * self.width
             CheckBox:
                 size_hint: 0.05,0.3                
                 active: True
@@ -157,6 +180,7 @@
             Label:
                 size_hint: 0.2,0.3
                 text: "Shuffle Data"
+                font_size: 0.05 * self.height + 0.078 * self.width
             CheckBox:
                 size_hint: 0.05,0.3                
                 active: True
@@ -166,6 +190,7 @@
                 id:stats
                 size_hint: 1,0.2
                 text: "Training Stats: "
+                font_size: 0.011 *self.height + 0.016 * self.width
 
         #2/3 MainScreen ---> DONE Don't Touch
         Middle:
@@ -178,40 +203,49 @@
             cols: 3
             Button:
                 text: "Save Current Model"
+                font_size: 0.05 * self.height + 0.05 * self.width
                 on_press: root.save_model()
             Button:
                 text: "Visualize Training"
+                font_size: 0.05 * self.height + 0.05 * self.width
                 on_release: root.show_img(Train=True)
             Button:
                 text: "Browse training data(*.csv)"
+                font_size: 0.05 * self.height + 0.05 * self.width
                 on_release: root.get_csv_file(Train=True)
             Button:
                 text: "Load Existing Model"
+                font_size: 0.05 * self.height + 0.05 * self.width
                 on_release: root.get_h5_file()
             Button:
                 text: "Testing Stats"
+                font_size: 0.05 * self.height + 0.05 * self.width
                 on_release: root.show_img(Test=True)
             Button:
                 text: "Browse testing data(*.csv)"
+                font_size: 0.05 * self.height + 0.05 * self.width
                 on_release: root.get_csv_file(Test=True)
             Button:
                 text: "Report a Bug"
+                font_size: 0.05 * self.height + 0.05 * self.width
                 on_press: root.open_browser(bug=True)
             BoxLayout:
                 Label:
-                    size_hint: 0.3,1
+                    size_hint: 0.32,1
                     text:"Label at start"
+                    font_size: 0.13 * self.height + 0.11 * self.width
                 CheckBox:
-                    size_hint: 0.1,1
+                    size_hint: 0.08,1
                     id: label_start
                     active: True
                     on_active: root.label_at_start=self.active
                 Label:
-                    size_hint: 0.5,1
+                    size_hint: 0.52,1
                     text: "Smart Preprocess Data"
+                    font_size: 0.06 * self.height + 0.08 * self.width
                 CheckBox:
                     id: smart_preprocess
-                    size_hint: 0.1,1
+                    size_hint: 0.08,1
                     active: True
                     on_active: root.smart_preprocess=self.active
                        
@@ -219,6 +253,7 @@
                 Label:
                     size_hint: 0.4,1
                     text: "Validation Split: "
+                    font_size: 0.08 * self.height + 0.1 * self.width
                 Slider:
                     size_hint: 0.5,1
                     id: validation_split
@@ -231,5 +266,6 @@
                 Label:
                     size_hint: 0.1,1
                     text: str(validation_split.value)+str("%")
+                    font_size: 0.1 * self.height + 0.4 * self.width
 
 
