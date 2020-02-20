@@ -76,19 +76,30 @@ class MainScreen(FloatLayout):
             webbrowser.open("https://github.com/imdeep2905/Neural-Network-Sandbox/issues/newa")
     
     def get_csv_file(self,Train=False,Test=False):
-        root = tk.Tk()
-        root.withdraw()        
-        if Train:
-            self.train_path=filedialog.askopenfilename(filetypes=[('CSV File','*.csv')])
-        if Test:
-            self.test_path=filedialog.askopenfilename(filetypes=[('CSV File','*.csv')])
+        try:
+            root = tk.Tk()
+            root.withdraw()        
+            if Train:
+                self.train_path=filedialog.askopenfilename(filetypes=[('CSV File','*.csv')])
+            if Test:
+                self.test_path=filedialog.askopenfilename(filetypes=[('CSV File','*.csv')])
+        except OSError:
+            popup = Popup(title='Error', size_hint=(0.5, 0.5),auto_dismiss=True)
+            popup.add_widget((Label(text="You didn't select any file")))
+            popup.open()
+ 
     
     def get_h5_file(self):
-        root = tk.Tk()
-        root.withdraw()
-        loaded_model_path=filedialog.askopenfilename(filetypes=[('HDF5 File','*.h5')])
-        self.load_model(loaded_model_path)
-    
+        try:
+            root = tk.Tk()
+            root.withdraw()
+            loaded_model_path=filedialog.askopenfilename(filetypes=[('HDF5 File','*.h5')])
+            self.load_model(loaded_model_path)
+        except OSError:
+            popup = Popup(title='Error', size_hint=(0.5, 0.5),auto_dismiss=True)
+            popup.add_widget((Label(text="You didn't select any file")))
+            popup.open()    
+            
     def show_img(self,Train=False,Test=False):
         if Train:
             if self.train_path=="":
