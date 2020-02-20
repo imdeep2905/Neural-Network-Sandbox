@@ -1,3 +1,7 @@
+#<NetworkDrawing>:
+#    FloatLayout:
+#        Label:
+#            text: "This is Drawing"
 <Layer>:
     canvas.before:
         Color:
@@ -6,7 +10,7 @@
             pos: self.pos
             size: self.size
     GridLayout:
-        rows:3
+        rows:2
         BoxLayout:
             size_hint:1,0.1
             Label:
@@ -19,10 +23,6 @@
                 size_hint: 0.3,1
                 text: "1"
                 font_size: 0.1 * self.height + 0.1 * self.width
-        Label:
-            #Animation will be here     
-            text: "Padding"
-            size_hint: 1,0.8
         BoxLayout:
             size_hint: 1,0.1
             Label:
@@ -193,10 +193,16 @@
                 font_size: 0.011 *self.height + 0.016 * self.width
 
         #2/3 MainScreen ---> DONE Don't Touch
+        NetworkDrawing:
+            id: network_drawing
+            size_hint:1,0.4
+            pos_hint: {"x":0,"y":.14}
+            
         Middle:
             id: mid
-            pos_hint: {"x":0,"y":.15}
-            size_hint:1,0.55
+            pos_hint: {"x":0,"y":.64}
+            size_hint:1,0.1
+
         #3/3 MainScreen ---> Done Don't Touch
         GridLayout:
             size_hint: 1,0.15 
