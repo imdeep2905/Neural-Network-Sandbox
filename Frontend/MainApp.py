@@ -31,11 +31,20 @@ import webbrowser
 from PIL import Image
 
 class Layer(BoxLayout):
-    def draw_neurons(self):
-        self.canvas.add(Color(0.33,0.6,0.3))
-        for i in range (int(self.ids.neurons.text)):
-            print(i)
-            self.canvas.add(Ellipse(size=(100,100),pos_hint={"x":0.5,"y":0.5}))
+    pass
+
+class NetworkDrawing(FloatLayout):
+    def default_drawing(self,td):
+        with self.canvas:
+            Color(0.33,0.66,0.2)
+            Ellipse(size= (100,100), pos_hint ={'x':self.width/2,'y':self.height/2})
+    
+    def draw_network(self,layers=[1,1],weights=(None)):
+        if isinstance(weights,tuple):
+            pass
+        else:
+            pass
+        
 
 class Middle(BoxLayout):
     def add_layer(self):
@@ -66,6 +75,7 @@ class MainScreen(FloatLayout):
         self.gpu_use=True
         self.shuffle_data=True
         Clock.schedule_once(self.greet_user,0.1)
+        Clock.schedule_once(self.ids.network_drawing.default_drawing,0.2)
         
     def open_browser(self,tutorial=False,help=False,bug=False):
         if tutorial:
@@ -222,6 +232,7 @@ class MainScreen(FloatLayout):
         for children in self.ids.mid.children: 
             try:
                 layers.append(int(children.ids.neurons.text))
+                children.draw_neurons()
                 active_fns.append(children.ids.activation_fn.text)
             except ValueError:
                 popup = Popup(title='Neurons Error', size_hint=(0.5, 0.5),auto_dismiss=True)
@@ -232,6 +243,7 @@ class MainScreen(FloatLayout):
                 return -1,-1,-1                
             i-=1
         layers.reverse()
+        self.ids.network_drawing.draw_network(layers=layers)
         active_fns.reverse()
         print(layers,active_fns)
         return layers_n,layers,active_fns
