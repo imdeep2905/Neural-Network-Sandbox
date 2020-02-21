@@ -1,0 +1,4 @@
+digraph G {	fontname = "Sans 10"	rankdir=LR	splines=line	nodesep=.08;	ranksep=1;	edge [color=black, arrowsize=.5];	node [fixedsize=true,label="",style=filled,color=none,fillcolor=gray,shape=circle]
+	subgraph cluster_0 {		color=none;		node [style=filled, color=white, penwidth=15,fillcolor=black shape=circle];		l10 ;		label = Input;	}
+	subgraph cluster_1 {		color=none;		node [style=filled, color=white, penwidth=15,fillcolor=black shape=circle];		l20 ;		label = Output;	}
+	l10 -> l20}
