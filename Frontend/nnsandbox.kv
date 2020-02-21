@@ -7,30 +7,30 @@
             pos: self.pos
             size: self.size
     GridLayout:
-        cols:2
+        rows:2
         BoxLayout:
             size_hint:1,0.1
             Label:
                 size_hint: 0.7,1            
                 text: "Neurons: "
-                font_size: 0.05 * self.height + 0.08 * self.width
+                font_size: 0.05 * self.height + 0.06 * self.width
             TextInput:
                 id: neurons
                 multiline: False
                 size_hint: 0.3,1
                 text: "1"
-                font_size: 0.1 * self.height + 0.1 * self.width
+                font_size: 0.08 * self.height + 0.08 * self.width
         BoxLayout:
             size_hint: 1,0.1
             Label:
                 size_hint: 0.7,1
                 text : "Activation : "
-                font_size: 0.05 * self.height + 0.08 * self.width
+                font_size: 0.05 * self.height + 0.06 * self.width
             Spinner:
                 size_hint: 0.3,1
                 id: activation_fn
                 text: "sigmoid"                   
-                font_size: 0.1 * self.height + 0.1 * self.width
+                font_size: 0.08 * self.height + 0.08 * self.width
                 values: ["sigmoid","relu","elu","selu","tanh","softmax","linear"]       
     
 <LayerControl>:
@@ -47,8 +47,8 @@
                 size: self.size
         #1/3 MainScreen
         StackLayout:
-            pos_hint: {"x":0,"y":0.7}
-            size_hint: 1,0.3
+            pos_hint: {"x":0,"y":0.75}
+            size_hint: 1,0.25
             Button:
                 text: "Readme"
                 size_hint: 0.15,0.2
@@ -150,7 +150,6 @@
                 background_color:(0.137, 0.149, 0.161, 1.0)
                 background_normal :'Frontend/imgs/play.png'
                 on_press: 
-                    root.update_stats(text="Now Training Model....")
                     root.start()
             Button:
                 border: 0,0,0,0
@@ -193,7 +192,7 @@
         LayerControl:
             id: layer_control
             pos_hint: {"x":0,"y":.65}
-            size_hint:1,0.05
+            size_hint:1,0.1
 
         NetworkDrawing:
             id: network_drawing
