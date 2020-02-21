@@ -39,17 +39,26 @@ class NetworkDrawing(Image):
     def __init__(self, **kwargs):
         super().__init__(**kwargs,source='Network_Drawing.png')
         self.drawer=NetworkDrawer()
+        self.reload()
         
     def default_drawing(self,td=0):
         self.drawer.draw(layers=[1,1],weighted=False)
+        self.reload()
         
     def draw_network(self,layers=[1,1]):
-        self.drawer.draw(layers=layers,weighted=False)
-    
-    def update_image(self,td=0):
+        if all(item<=13 for item in layers):    
+            self.drawer.draw(layers=layers,weighted=False)
+        else:
+            layers_copy=layers.copy()
+            for i in range(len(layers)):
+                layers_copy[i]=min(layers[i],13)
+            popup = Popup(title='Network Preview Notice', size_hint=(0.5, 0.5),auto_dismiss=True)
+            popup.add_widget((Label(text="For all layer with neurons >13 will be scaled to 13 \n for performance issues.")))
+            popup.open()
+            self.drawer.draw(layers=layers_copy,weighted=False)
         self.reload()
-
-class Middle(BoxLayout):
+        
+class LayerControl(BoxLayout):
     def add_layer(self):
         self.add_widget(Layer())
     
@@ -79,7 +88,6 @@ class MainScreen(FloatLayout):
         self.shuffle_data=True
         Clock.schedule_once(self.greet_user,0.1)
         Clock.schedule_once(self.ids.network_drawing.default_drawing,0.2)
-        Clock.schedule_interval(self.ids.network_drawing.update_image, 1)
         
     def open_browser(self,tutorial=False,help=False,bug=False):
         if tutorial:
@@ -159,9 +167,9 @@ class MainScreen(FloatLayout):
             self.ids.smart_preprocess.active=True
             self.train_path=""
             self.test_path=""
-            while(len(self.ids.mid.children)>2):
-                self.ids.mid.remove_layer()
-            for children in self.ids.mid.children:
+            while(len(self.ids.layer_control.children)>2):
+                self.ids.layer_control.remove_layer()
+            for children in self.ids.layer_control.children:
                 children.ids.neurons.text=str(1)
                 children.ids.activation_fn.text=str("None")
             self.batch_normalization=True
@@ -170,6 +178,7 @@ class MainScreen(FloatLayout):
             self.model=NN(GPU=False)
             self.gpu_use=True
             self.shuffle_data=True
+            self.ids.network_drawing.default_drawing()
 
             
     def start(self):
@@ -229,11 +238,11 @@ class MainScreen(FloatLayout):
             self.ids.start_btn.state="normal"
             self.running=False
             return -1,-1,-1
-        layers_n=len(self.ids.mid.children)
+        layers_n=len(self.ids.layer_control.children)
         layers=[]
         active_fns=[]
         i=layers_n
-        for children in self.ids.mid.children: 
+        for children in self.ids.layer_control.children: 
             try:
                 layers.append(int(children.ids.neurons.text))
                 active_fns.append(children.ids.activation_fn.text)
@@ -247,7 +256,6 @@ class MainScreen(FloatLayout):
             i-=1
         layers.reverse()
         self.ids.network_drawing.draw_network(layers=layers)
-        self.ids.network_drawing.update_image()
         active_fns.reverse()
         print(layers,active_fns)
         return layers_n,layers,active_fns
@@ -282,11 +290,12 @@ class MainScreen(FloatLayout):
             if layer["class_name"]=="Flatten":
                 pass
         for i in range(layers_n-2):
-            self.ids.mid.add_layer()
+            self.ids.layer_control.add_layer()
         layers.reverse()
+        self.ids.network_drawing.draw_network(layers=layers)
         activation_fns.reverse()
         i=0
-        for children in self.ids.mid.children: 
+        for children in self.ids.layer_control.children: 
             children.ids.neurons.text=str(layers[i])
             children.ids.activation_fn.text=str(activation_fns[i])
             i+=1
