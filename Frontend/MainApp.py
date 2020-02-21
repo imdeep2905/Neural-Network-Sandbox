@@ -32,6 +32,9 @@ import webbrowser
 import PIL
 from Frontend.Drawing import NetworkDrawer
 
+class FLayer(BoxLayout):
+    pass
+    
 class Layer(BoxLayout):
     pass
 
