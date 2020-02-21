@@ -1,0 +1,1 @@
+Epoch: 4 - loss: 0.65 - accuracy: 0.65 - mse: 0.23
