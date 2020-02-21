@@ -10,8 +10,9 @@ import os
 import json
 #Permit CPU usage
 def set_device(GPU):
-    if GPU==False:
-        os.environ['CUDA_VISIBLE_DEVICES'] = '-1' #For CPU use
+    if tf.test.is_built_with_cuda():
+        if GPU==False:
+            os.environ['CUDA_VISIBLE_DEVICES'] = '-1' #For CPU use
 
 #choosing optimizer according to user's choice
 def get_optimizer(optimizer,lr):
