@@ -14,6 +14,7 @@ from kivy.app import App
 from kivy.graphics import Ellipse
 from kivy.uix.slider import Slider
 from kivy.uix.label import Label
+from kivy.uix.image import Image
 from kivy.properties import ObjectProperty
 from kivy.lang.builder import Builder
 from kivy.uix.floatlayout import FloatLayout
@@ -24,27 +25,29 @@ from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.uix.togglebutton import ToggleButton
 from kivy.graphics.instructions import Canvas
-from kivy.graphics import *
+from kivy.graphics import Ellipse,Line,Color
 from kivy.uix.filechooser import FileChooser
 from kivy.uix.checkbox import CheckBox
 import webbrowser
-from PIL import Image
+import PIL
+from Frontend.Drawing import NetworkDrawer
 
 class Layer(BoxLayout):
     pass
 
-class NetworkDrawing(FloatLayout):
-    def default_drawing(self,td):
-        with self.canvas:
-            Color(0.33,0.66,0.2)
-            Ellipse(size= (100,100), pos_hint ={'x':self.width/2,'y':self.height/2})
-    
-    def draw_network(self,layers=[1,1],weights=(None)):
-        if isinstance(weights,tuple):
-            pass
-        else:
-            pass
+class NetworkDrawing(Image):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs,source='Network_Drawing.png')
+        self.drawer=NetworkDrawer()
         
+    def default_drawing(self,td=0):
+        self.drawer.draw(layers=[1,1],weighted=False)
+        
+    def draw_network(self,layers=[1,1]):
+        self.drawer.draw(layers=layers,weighted=False)
+    
+    def update_image(self,td=0):
+        self.reload()
 
 class Middle(BoxLayout):
     def add_layer(self):
@@ -76,6 +79,7 @@ class MainScreen(FloatLayout):
         self.shuffle_data=True
         Clock.schedule_once(self.greet_user,0.1)
         Clock.schedule_once(self.ids.network_drawing.default_drawing,0.2)
+        Clock.schedule_interval(self.ids.network_drawing.update_image, 1)
         
     def open_browser(self,tutorial=False,help=False,bug=False):
         if tutorial:
@@ -118,7 +122,7 @@ class MainScreen(FloatLayout):
                 popup.open()
             else:
                 self.model.train_visualize()
-                im = Image.open('train_history_img.png')
+                im = PIL.Image.open('train_history_img.png')
                 im.show()    
         if Test:
             if self.test_path=="":
@@ -232,7 +236,6 @@ class MainScreen(FloatLayout):
         for children in self.ids.mid.children: 
             try:
                 layers.append(int(children.ids.neurons.text))
-                children.draw_neurons()
                 active_fns.append(children.ids.activation_fn.text)
             except ValueError:
                 popup = Popup(title='Neurons Error', size_hint=(0.5, 0.5),auto_dismiss=True)
@@ -244,6 +247,7 @@ class MainScreen(FloatLayout):
             i-=1
         layers.reverse()
         self.ids.network_drawing.draw_network(layers=layers)
+        self.ids.network_drawing.update_image()
         active_fns.reverse()
         print(layers,active_fns)
         return layers_n,layers,active_fns
