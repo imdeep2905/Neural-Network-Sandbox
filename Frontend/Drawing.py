@@ -3,6 +3,8 @@ from subprocess import check_call
 
 # Thanks to
 # https://github.com/martisak/dotnets/blob/master/dotnets.py
+# https://tgmstat.wordpress.com/2013/06/12/draw-neural-network-diagrams-graphviz/
+
 class NetworkDrawer:
     def __init__(self):
         pass
