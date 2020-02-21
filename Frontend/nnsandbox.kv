@@ -1,4 +1,4 @@
-#:kivy `1.11.1`
+#:kivy 1.11.1
 <Layer>:
     canvas.before:
         Color:
@@ -33,7 +33,7 @@
                 font_size: 0.1 * self.height + 0.1 * self.width
                 values: ["sigmoid","relu","elu","selu","tanh","softmax","linear"]       
     
-<Middle>:
+<LayerControl>:
     Layer:
     Layer:
 
@@ -89,13 +89,13 @@
                 text: "Add Layer"
                 id: add_layer_btn
                 font_size: 0.055 * self.height + 0.092 * self.width
-                on_press: mid.add_layer()
+                on_press: layer_control.add_layer()
             Button:
                 size_hint: 0.15,0.2
                 id: remove_layer_btn
                 text: "Remove Layer"
                 font_size: 0.055 * self.height + 0.092 * self.width
-                on_press: mid.remove_layer()
+                on_press: layer_control.remove_layer()
             Label:
                 text: "Weights Intialization: "
                 size_hint: 0.15,0.2
@@ -190,8 +190,8 @@
                 font_size: 0.011 *self.height + 0.016 * self.width
 
         #2/3 MainScreen ---> DONE Don't Touch            
-        Middle:
-            id: mid
+        LayerControl:
+            id: layer_control
             pos_hint: {"x":0,"y":.65}
             size_hint:1,0.05
 
