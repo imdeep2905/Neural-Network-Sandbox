@@ -36,7 +36,7 @@ class MyLogger(Callback):
         with open('log.txt', 'w') as f:
             stats= "Epoch: "+ str(epoch+1)
             for key in logs:
-                stats+=" - "+str(key).capitalize()+": "+str(round(logs[key],2))
+                stats+=" , "+str(key).capitalize()+" = "+str(round(logs[key],2))
             f.write(stats)
                 
 #class NN for Neural Network
