@@ -1,7 +1,8 @@
 #<NetworkDrawing>:
-#    FloatLayout:
-#        Label:
-#            text: "This is Drawing"
+#    BoxLayout:
+#        Button:
+#            background_normal: 'Network_Drawing.png'
+
 <Layer>:
     canvas.before:
         Color:
@@ -10,7 +11,7 @@
             pos: self.pos
             size: self.size
     GridLayout:
-        rows:2
+        cols:2
         BoxLayout:
             size_hint:1,0.1
             Label:
@@ -192,20 +193,21 @@
                 text: "Training Stats: "
                 font_size: 0.011 *self.height + 0.016 * self.width
 
-        #2/3 MainScreen ---> DONE Don't Touch
-        NetworkDrawing:
-            id: network_drawing
-            size_hint:1,0.4
-            pos_hint: {"x":0,"y":.14}
-            
+        #2/3 MainScreen ---> DONE Don't Touch            
         Middle:
             id: mid
-            pos_hint: {"x":0,"y":.64}
-            size_hint:1,0.1
+            pos_hint: {"x":0,"y":.65}
+            size_hint:1,0.05
+
+        NetworkDrawing:
+            id: network_drawing
+            size_hint:1,0.5
+            pos_hint: {"x":0,"y":.15}
 
         #3/3 MainScreen ---> Done Don't Touch
         GridLayout:
             size_hint: 1,0.15 
+            pos_hint: {"x":0,"y":0}
             cols: 3
             Button:
                 text: "Save Current Model"
