@@ -36,7 +36,7 @@ class MyLogger(Callback):
         with open('log.txt', 'w') as f:
             stats= "Epoch: "+ str(epoch+1)
             for key in logs:
-                stats+=" - "+str(key)+": "+str(round(logs[key],2))
+                stats+=" - "+str(key).capitalize()+": "+str(round(logs[key],2))
             f.write(stats)
                 
 #class NN for Neural Network
@@ -73,7 +73,7 @@ class NN:
         self.train_history=self.model.fit(x_train,y_train,epochs=self.epochs,validation_split=val_split,callbacks=[MyLogger()],shuffle=shuffle)
             
     def evaluate(self,x_test,y_test):
-        self.test_history=self.model.evaluate(x_test,y_test)
+        self.test_history=self.model.evaluate(x_test,y_test,verbose=0)#Bug in tf (too many '='s in console)
     
     def train_visualize(self,size_x=8,size_y=5):
         pd.DataFrame(self.train_history.history).plot(figsize=(size_x,size_y)) 
