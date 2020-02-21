@@ -1,4 +1,32 @@
 #:kivy 1.11.1
+<FLayer>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1.0 #Will change color later
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    GridLayout:
+        rows:2
+        BoxLayout:
+            size_hint:1,0.1
+            Label:
+                size_hint: 0.7,1            
+                text: "Neurons: "
+                font_size: 0.05 * self.height + 0.06 * self.width
+            TextInput:
+                id: neurons
+                multiline: False
+                size_hint: 0.3,1
+                text: "1"
+                font_size: 0.08 * self.height + 0.08 * self.width
+        BoxLayout:
+            size_hint: 1,0.1
+            Label:
+                id: activation_fn
+                text: "No Activation for First Layer"  
+                font_size: 0.04 * self.height + 0.04 * self.width
+
 <Layer>:
     canvas.before:
         Color:
@@ -34,7 +62,7 @@
                 values: ["sigmoid","relu","elu","selu","tanh","softmax","linear"]       
     
 <LayerControl>:
-    Layer:
+    FLayer:                
     Layer:
 
 <MainScreen>:
@@ -149,7 +177,7 @@
                 size_hint: 0.1,0.3
                 background_color:(0.137, 0.149, 0.161, 1.0)
                 background_normal :'Frontend/imgs/play.png'
-                on_press: 
+                on_release: 
                     root.start()
             Button:
                 border: 0,0,0,0
