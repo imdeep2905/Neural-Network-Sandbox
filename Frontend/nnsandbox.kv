@@ -1,4 +1,79 @@
 #:kivy 1.11.1
+<StyledButton@Button>:
+    canvas: 
+        Color: 
+            rgba: 0,0,0, 1
+        Line: 
+            width: .5
+            rectangle: (self.x, self.y, self.width, self.height) 
+    background_normal: ''
+    background_color: 48/255.,48/255.,48/255.,1.
+    font_name: 'Roboto'            
+    on_press: 
+        self.background_color= (173/255. , 216/255. , 230/255.,1)
+    on_release:
+        self.background_color= (48/255.,48/255.,48/255.,1.)
+
+<ImageButton@Button>:
+    canvas: 
+        Color: 
+            rgba: 0,0,0, 1
+        Line: 
+            width: .6
+            rectangle: (self.x, self.y, self.width, self.height) 
+    background_normal: ''
+    background_color: 48/255.,48/255.,48/255.,1.
+    border: 0,0,0,0
+    on_press: 
+        self.background_color= (173/255. , 216/255. , 230/255.,1)
+    on_release:
+        self.background_color= (48/255.,48/255.,48/255.,1.)
+
+<StyledLabel@Label>:    
+    canvas.before:
+        Color:
+            rgba: 48/255. , 48/255. , 48/255., 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<StyledSpinner@Spinner>:
+    canvas: 
+        Color: 
+            rgba: 0,0,0, 1
+        Line: 
+            width: .5
+            rectangle: (self.x, self.y, self.width, self.height) 
+    background_normal: ''
+    background_color: 70/255. , 70/255. , 70/255.,1
+    canvas.before:
+        Color:
+            rgba: 70/255. , 70/255. , 70/255., 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    
+<StyledCheckBox@CheckBox>: 
+    background_normal: ''
+    background_color: 48/255. , 48/255. , 48/255.,1
+    canvas.before:
+        Color:
+            rgba: 48/255. , 48/255. , 48/255., 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<StyledSlider@Slider>:
+    background_normal: ''
+    background_color: 48/255. , 48/255. , 48/255.,1
+    canvas.before:
+        Color:
+            rgba: 48/255. , 48/255. , 48/255., 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
 <FLayer>:
     canvas.before:
         Color:
@@ -9,8 +84,15 @@
     GridLayout:
         rows:2
         BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1.0 #Will change color later
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
             size_hint:1,0.1
-            Label:
+            padding: 0.5
+            StyledLabel:
                 size_hint: 0.7,1            
                 text: "Neurons: "
                 font_size: 0.05 * self.height + 0.06 * self.width
@@ -21,8 +103,15 @@
                 text: "1"
                 font_size: 0.08 * self.height + 0.08 * self.width
         BoxLayout:
-            size_hint: 1,0.1
-            Label:
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1.0 #Will change color later
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint:1,0.1
+            padding: 0.5
+            StyledLabel:
                 id: activation_fn
                 text: "No Activation for First Layer"  
                 font_size: 0.04 * self.height + 0.04 * self.width
@@ -38,7 +127,15 @@
         rows:2
         BoxLayout:
             size_hint:1,0.1
-            Label:
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1.0 #Will change color later
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint:1,0.1
+            padding: 0.5
+            StyledLabel:
                 size_hint: 0.7,1            
                 text: "Neurons: "
                 font_size: 0.05 * self.height + 0.06 * self.width
@@ -50,11 +147,19 @@
                 font_size: 0.08 * self.height + 0.08 * self.width
         BoxLayout:
             size_hint: 1,0.1
-            Label:
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1.0 #Will change color later
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint:1,0.1
+            padding: 0.5
+            StyledLabel:
                 size_hint: 0.7,1
                 text : "Activation : "
                 font_size: 0.05 * self.height + 0.06 * self.width
-            Spinner:
+            StyledSpinner:
                 size_hint: 0.3,1
                 id: activation_fn
                 text: "sigmoid"                   
@@ -69,29 +174,37 @@
     FloatLayout:
         canvas.before:
             Color:
-                rgba: 0.137, 0.149, 0.161, 1.0 #Will change color later
+                #rgba: 0.137, 0.149, 0.161, 1.0 #Will change color later
+                rgba: 16/255. , 16/255. , 16/255., 1
+                #rgba: 7/255. , 19/255. , 23/255. , 1 
             Rectangle:
                 pos: self.pos
                 size: self.size
         #1/3 MainScreen
         StackLayout:
+            canvas.before:
+                Color:
+                    rgba: 48/255., 48/255., 48/255., 1.0 #Will change color later
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
             pos_hint: {"x":0,"y":0.75}
             size_hint: 1,0.25
-            Button:
+            StyledButton:
                 text: "Readme"
                 size_hint: 0.15,0.2
                 font_size: 0.06 * self.height + 0.1 * self.width
                 on_press:  root.open_browser(tutorial=True)             
-            Button:
+            StyledButton:
                 text: "Help"
                 size_hint: 0.15,0.2
                 font_size: 0.06 * self.height + 0.1 * self.width
                 on_press:  root.open_browser(help=True)             
-            Label:
+            StyledLabel:
                 text: "Optimization Technique: "
                 font_size: 0.058 * self.height +  0.079 * self.width
                 size_hint: 0.15,0.2
-            Spinner:
+            StyledSpinner:
                 size_hint: 0.2,0.2
                 id: optimizer
                 text: "SGD"                   #default value showed
@@ -99,11 +212,11 @@
                 values: ["SGD","RMSprop","Adagrad","Adam","Adamax","Nadam","Adadelta"]       #list of values to show
                 on_text:
                     root.optimizer=optimizer.text
-            Label:
+            StyledLabel:
                 text: "Loss Function: "
                 font_size: 0.06 * self.height +  0.1 * self.width
                 size_hint: 0.15,0.2
-            Spinner:
+            StyledSpinner:
                 size_hint: 0.2,0.2
                 id: loss_fn
                 text: "sparse_categorical_crossentropy"             
@@ -112,23 +225,23 @@
                 on_text:
                     root.loss_fn=loss_fn.text
             
-            Button:
+            StyledButton:
                 size_hint: 0.15,0.2
                 text: "Add Layer"
                 id: add_layer_btn
                 font_size: 0.055 * self.height + 0.092 * self.width
                 on_press: layer_control.add_layer()
-            Button:
+            StyledButton:
                 size_hint: 0.15,0.2
                 id: remove_layer_btn
                 text: "Remove Layer"
                 font_size: 0.055 * self.height + 0.092 * self.width
                 on_press: layer_control.remove_layer()
-            Label:
+            StyledLabel:
                 text: "Weights Intialization: "
                 size_hint: 0.15,0.2
                 font_size: 0.06 * self.height + 0.08 * self.width
-            Spinner:
+            StyledSpinner:
                 size_hint: 0.2,0.2
                 id: kernal_init
                 text: "he_normal"                   #default value showed
@@ -136,81 +249,96 @@
                 values: ["he_normal","he_uniform","lecun_normal","lecun_uniform","glorot_normal","glorot_uniform","RandomNormal","RandomUniform","Orthogonal"]       #list of values to show
                 on_text:
                     root.kernal_init=kernal_init.text            
-            Label:
+            StyledLabel:
                 size_hint: 0.095,0.2            
                 text: "Learning rate: "
                 font_size: 0.11 * self.height + 0.11 * self.width
             TextInput:
                 multiline:False
                 id: lr
-                size_hint: 0.055,0.2            
+                size_hint: 0.055,0.198            
                 id:lr
                 text: "0.01"
                 font_size: 0.2 * self.height + 0.2 * self.width
                 on_text: 
                     root.lr=str(lr.text)
-            Label:
+            StyledLabel:
                 size_hint: 0.1,0.2            
-                font_size: 0.1 * self.height + 0.12 * self.width
+                font_size: 0.1 * self.height + 0.119 * self.width
                 text: "Epochs: "
-            Label:
+            StyledLabel:
                 size_hint: 0.05,0.2            
                 id:epochs
                 text: "1"
-                font_size: 0.2 * self.height + 0.2 * self.width
-            Button:
+                font_size: 0.2 * self.height + 0.198 * self.width
+            StyledButton:
                 size_hint: 0.025,0.2
                 text: "+"
                 font_size: 0.2 * self.height + 0.2 * self.width
                 on_press: 
                     root.change_epoch(Incr=True)
-            Button:
+            StyledButton:
                 size_hint: 0.025,0.2
                 text: "-"
                 font_size: 0.2 * self.height + 0.2 * self.width
                 on_press: 
                     root.change_epoch(Decr=True)
                     
-            Button:
+            ImageButton:
                 id:start_btn
-                border: 0,0,0,0
-                size_hint: 0.1,0.3
-                background_color:(0.137, 0.149, 0.161, 1.0)
+                size_hint: 0.1,0.4
                 background_normal :'Frontend/imgs/play.png'
                 on_release: 
                     root.start()
-            Button:
-                border: 0,0,0,0
-                size_hint: 0.1,0.3
+            ImageButton:
+                size_hint: 0.1,0.4
                 background_normal:'Frontend/imgs/reset.png'
                 on_press: root.reset()
-            Label:
-                size_hint: 0.2,0.3
-                text: "Batch Normalization"
-                font_size: 0.05 * self.height + 0.078 * self.width
-            CheckBox:
-                id:batch_norm
-                size_hint: 0.05,0.3                
-                active: True
-                on_active: root.batch_normalization=self.active
-            Label:
-                size_hint: 0.2,0.3
-                text: "Use GPU"
-                font_size: 0.05 * self.height + 0.078 * self.width
-            CheckBox:
-                size_hint: 0.05,0.3                
-                active: True
-                on_active: root.gpu_use=self.active
-            Label:
-                size_hint: 0.2,0.3
-                text: "Shuffle Data"
-                font_size: 0.05 * self.height + 0.078 * self.width
-            CheckBox:
-                size_hint: 0.05,0.3                
-                active: True
-                on_active: root.shuffle_data=self.active
-            
-            Label:
+            BoxLayout:
+                size_hint: 0.8,0.4
+                canvas: 
+                    Color: 
+                        rgba: 0,0,0, 1
+                    Line: 
+                        width: .5
+                        rectangle: (self.x, self.y, self.width, self.height) 
+                padding: 0.5
+                StyledLabel:
+                    size_hint: 0.05,1
+                    text: "" #Dummy label
+                    font_size: 0.05 * self.height + 0.078 * self.width
+                StyledLabel:
+                    size_hint: 0.2,1
+                    text: "Batch Normalization"
+                    font_size: 0.05 * self.height + 0.078 * self.width
+                StyledCheckBox:
+                    id:batch_norm
+                    size_hint: 0.05,1                
+                    active: True
+                    on_active: root.batch_normalization=self.active
+                StyledLabel:
+                    size_hint: 0.2,1
+                    text: "Use GPU"
+                    font_size: 0.05 * self.height + 0.078 * self.width
+                StyledCheckBox:
+                    size_hint: 0.05,1                
+                    active: True
+                    on_active: root.gpu_use=self.active
+                StyledLabel:
+                    size_hint: 0.2,1
+                    text: "Shuffle Data"
+                    font_size: 0.05 * self.height + 0.078 * self.width
+                StyledCheckBox: 
+                    size_hint: 0.05,1                
+                    active: True
+                    on_active: root.shuffle_data=self.active
+            StyledLabel:
+                canvas: 
+                    Color: 
+                        rgba: 0,0,0, 1
+                    Line: 
+                        width: .5
+                        rectangle: (self.x, self.y, self.width, self.height) 
                 id:stats
                 size_hint: 1,0.2
                 text: "Training Stats: "
@@ -229,63 +357,86 @@
 
         #3/3 MainScreen ---> Done Don't Touch
         GridLayout:
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1.0 #Will change color later
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            
+
             size_hint: 1,0.15 
             pos_hint: {"x":0,"y":0}
             cols: 3
-            Button:
+            StyledButton:
                 text: "Save Current Model"
-                font_size: 0.05 * self.height + 0.05 * self.width
+                font_size: 0.04 * self.height + 0.048 * self.width
                 on_press: root.save_model()
-            Button:
+            StyledButton:
                 text: "Visualize Training"
-                font_size: 0.05 * self.height + 0.05 * self.width
+                font_size: 0.04 * self.height + 0.048 * self.width
                 on_release: root.show_img(Train=True)
-            Button:
+            StyledButton:
                 text: "Browse training data(*.csv)"
-                font_size: 0.05 * self.height + 0.05 * self.width
+                font_size: 0.04 * self.height + 0.048 * self.width
                 on_release: root.get_csv_file(Train=True)
-            Button:
+            StyledButton:
                 text: "Load Existing Model"
-                font_size: 0.05 * self.height + 0.05 * self.width
+                font_size: 0.04 * self.height + 0.048 * self.width
                 on_release: root.get_h5_file()
-            Button:
+            StyledButton:
                 text: "Testing Stats"
-                font_size: 0.05 * self.height + 0.05 * self.width
+                font_size: 0.04 * self.height + 0.048 * self.width
                 on_release: root.show_img(Test=True)
-            Button:
+            StyledButton:
                 text: "Browse testing data(*.csv)"
-                font_size: 0.05 * self.height + 0.05 * self.width
+                font_size: 0.04 * self.height + 0.048 * self.width
                 on_release: root.get_csv_file(Test=True)
-            Button:
+            StyledButton:
                 text: "Report a Bug"
-                font_size: 0.05 * self.height + 0.05 * self.width
+                font_size: 0.04 * self.height + 0.048 * self.width
                 on_press: root.open_browser(bug=True)
-            BoxLayout:
-                Label:
+            BoxLayout:  
+                size_hint:1,0.1
+                canvas: 
+                    Color: 
+                        rgba: 0,0,0, 1
+                    Line: 
+                        width: .5
+                        rectangle: (self.x, self.y, self.width, self.height) 
+                padding: 0.5
+                StyledLabel:    
                     size_hint: 0.32,1
                     text:"Label at start"
-                    font_size: 0.13 * self.height + 0.11 * self.width
-                CheckBox:
+                    font_size: 0.098 * self.height + 0.098 * self.width
+                StyledCheckBox:
                     size_hint: 0.08,1
                     id: label_start
                     active: True
                     on_active: root.label_at_start=self.active
-                Label:
-                    size_hint: 0.52,1
+                StyledLabel:
+                    size_hint: 0.49,1
                     text: "Smart Preprocess Data"
                     font_size: 0.06 * self.height + 0.08 * self.width
-                CheckBox:
+                StyledCheckBox:
                     id: smart_preprocess
                     size_hint: 0.08,1
                     active: True
-                    on_active: root.smart_preprocess=self.active
-                       
+                    on_active: root.smart_preprocess=self.active       
             BoxLayout:
-                Label:
+                canvas: 
+                    Color: 
+                        rgba: 0,0,0, 1
+                    Line: 
+                        width: .5
+                        rectangle: (self.x, self.y, self.width, self.height) 
+                size_hint:1,0.1
+                
+                StyledLabel:
                     size_hint: 0.4,1
                     text: "Validation Split: "
-                    font_size: 0.08 * self.height + 0.1 * self.width
-                Slider:
+                    font_size: 0.06 * self.height + 0.098 * self.width
+                StyledSlider:
                     size_hint: 0.5,1
                     id: validation_split
                     min: 0
@@ -294,9 +445,9 @@
                     orientation: 'horizontal'
                     on_value: 
                         root.validation_split=self.value 
-                Label:
+                StyledLabel:
                     size_hint: 0.1,1
                     text: str(validation_split.value)+str("%")
-                    font_size: 0.1 * self.height + 0.4 * self.width
+                    font_size: 0.097 * self.height + 0.38 * self.width
 
 
