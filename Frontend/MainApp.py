@@ -172,9 +172,12 @@ class MainScreen(FloatLayout):
             self.test_path=""
             while(len(self.ids.layer_control.children)>2):
                 self.ids.layer_control.remove_layer()
+            i=len(self.ids.layer_control.children)-1
             for children in self.ids.layer_control.children:
                 children.ids.neurons.text=str(1)
-                children.ids.activation_fn.text=str("None")
+                if i!=0:
+                    children.ids.activation_fn.text=str("sigmoid")
+                i-=1
             self.batch_normalization=True
             self.metrics=["accuracy","mse"]
             self.stats="loss: ,val_loss: ,acc: "
