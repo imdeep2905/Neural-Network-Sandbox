@@ -1,5 +1,8 @@
 #Using tf,tf.keras as backend for NN
-import tensorflow as tf
+#import sys
+#print(sys.path)
+#sys.path.append('C:\\Users\\Deep Raval\\Desktop\\Projects\\Neural-Network-Sandbox\\BackEnd')
+from tensorflow import test 
 from tensorflow import keras
 import time
 from tensorflow.keras.callbacks import Callback
@@ -10,7 +13,7 @@ import os
 import json
 #Permit CPU usage
 def set_device(GPU):
-    if tf.test.is_built_with_cuda():
+    if test.is_built_with_cuda():
         if GPU==False:
             os.environ['CUDA_VISIBLE_DEVICES'] = '-1' #For CPU use
 
