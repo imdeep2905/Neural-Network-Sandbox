@@ -91,7 +91,7 @@ class MainScreen(FloatLayout):
         self.shuffle_data=True
         Clock.schedule_once(self.greet_user,0.1)
         Clock.schedule_once(self.ids.network_drawing.default_drawing,0.2)
-        
+            
     def open_browser(self,tutorial=False,help=False,bug=False):
         if tutorial:
             webbrowser.open("https://github.com/imdeep2905/Neural-Network-Sandbox/blob/master/README.md")
@@ -340,7 +340,7 @@ class NNSandboxApp(App):
 class ExceptionHandler(App):
     def __init__(self, text="",**kwargs ):
         super().__init__(**kwargs)
-        self.text=text
+        self.text=text  
 
     def build(self):
-        return Label(size=(700,700),text=self.text)
+        return Label(size=(1000,1000),text=self.text,color=[1,0,0,1],font_size='25sp')
