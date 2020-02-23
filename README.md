@@ -1,5 +1,5 @@
 # Neural-Network-Sandbox
-**Current Version: V1.0.0**
+**Current Version: V1.0**
 # Contents
 
 1. [Introduction](#Introduction)
@@ -38,7 +38,7 @@
 
 # Introduction
 Neural Network Sandbox is a GUI based application which makes making and training basic feed forward neural networks easy.
-
+Assume default value of parameter which are not listed here.(For Ex: batch_size=32)
 # Installation
 
 Currently we are working on one **executable file** and **pip package** for this application.
