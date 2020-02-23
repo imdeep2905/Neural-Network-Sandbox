@@ -274,7 +274,7 @@ Sometimes Visualize training doesn't work | No
 
 # Credits
 
-Contributors:compuer:: 
+Contributors :computer: : 
    * [Deep Raval](https://github.com/imdeep2905)
 
 Without these excellant libraries :heart: this would not have been possible.
