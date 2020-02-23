@@ -2,39 +2,39 @@
 **Current Version: V1.0.0**
 # Contents
 
-1. Introduction
-2. Installation
+1. [Introduction](#Introduction)
+2. [Installation](#Installation)
 3. [How to run](#How-to-run) 
-4. Features
-   * Readme 
-   * Help
-   * Optimization Technique
-   * Loss Function
-   * Add Layer
-   * Remove Layer
-   * Weights Intialization
-   * Learning rate
-   * Epochs
-   * Start
-   * Reset
-   * Batch Normalization
-   * Use GPU
-   * Shuffle Data
-   * Training Stats
-   * Layer Control
-   * Network Drawings
-   * Save Current Model
-   * Visualize Training
-   * Browse training Data
-   * Load Exsisting Model
-   * Testing Stats
-   * Browse testining Data 
-   * Report a Bug
-   * Label at Start
-   * Smart PreProcess Data
-   * Validation Split
-5. Known Issues
-6. Credits
+4. [Features](#Features)
+   * [Readme](#Readme) 
+   * [Help](#Help)
+   * [Optimization Technique](#Optimization-Technique)
+   * [Loss Function](#Loss-Function)
+   * [Add Layer](#Add-Layer)
+   * [Remove Layer](#Remove-Layer)
+   * [Weights Intialization](#Weights-Intialization)
+   * [Learning rate](#Learning-rate)
+   * [Epochs](#Epochs)
+   * [Start](#Start)
+   * [Reset](#Reset)
+   * [Batch Normalization](#Batch-Normalization)
+   * [Use GPU](#Use-GPU)
+   * [Shuffle Data](#Suffle-Data)
+   * [Training Stats](#Training-Stats)
+   * [Layer Control](#Layer-Control)
+   * [Network Drawings](#Network-Drawing)
+   * [Save Current Model](#Save-Current-Model)
+   * [Visualize Training](#Visualize-Training)
+   * [Browse training Data](#Browse-Training-Data)
+   * [Load Exsisting Model](#Load-Exsisting-Model)
+   * [Testing Stats](#Testing-Stats)
+   * [Browse testining Data](#Browse-Testing-Data)
+   * [Report a Bug](#Report-a-Bug)
+   * [Label at Start](#Label-at-Start)
+   * [Smart PreProcess Data](#Label-at-Start)
+   * [Validation Split](#Validation-Split)
+5. [Known Issues](#Known-Issues)
+6. [Credits](#Credits)
 
 # Introduction
 Neural Network Sandbox is a GUI based application which makes making and training basic feed forward neural networks easy.
@@ -131,6 +131,9 @@ Options are:
   * RandomUniform
   * Orthogonal
 
+### Learning rate
+
+Input your choice of learning rate here.Default value is ```0.01```
 ### Epochs
 
 Buttons ```+``` and  ```-``` can be used for increasing or decreasing number of epochs.Note that minimum value is 1 however no limit on maximum value.
