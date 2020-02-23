@@ -2,7 +2,7 @@
 
 # Contents
 
-1. [I'm absoulte beginner](#I'm-absoulte-beginner)
+1. [I'm absoulte beginner](#I-m-absoulte-beginner)
 2. [Buzzwords](#Buzzwords)
    * [Optimization Technique](#Optimization-Technique)
    * [Loss Function](#Loss-Function)
