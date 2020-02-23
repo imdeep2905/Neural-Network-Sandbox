@@ -74,6 +74,7 @@ You should always choose optimizer according do available data and time.
 ### Choose Learning rate
 
 ![choose_loss](https://github.com/imdeep2905/Neural-Network-Sandbox/blob/master/Frontend/imgs/choose_loss.png)
+
 Actually it's little hactic to select just right learning rate for your project.Feel free to experiment with different learning rates and see which gives best accuracy/mse.
 
 Our Advice is to start with smaller learning rate and gradually increase it untill you find best one.
