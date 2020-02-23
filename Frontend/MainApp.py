@@ -251,6 +251,13 @@ class MainScreen(FloatLayout):
         for children in self.ids.layer_control.children: 
             try:
                 layers.append(int(children.ids.neurons.text))
+                if int(children.ids.neurons.text)<1:
+                    popup = Popup(title='Neurons Error', size_hint=(0.5, 0.5),auto_dismiss=True)
+                    popup.open()
+                    popup.add_widget((Label(text=f'Number of neurons in layer {i} is negative or zero')))
+                    self.ids.start_btn.state="normal"
+                    self.running=False
+                    return -1,-1,-1                                    
                 active_fns.append(children.ids.activation_fn.text)
             except ValueError:
                 popup = Popup(title='Neurons Error', size_hint=(0.5, 0.5),auto_dismiss=True)
