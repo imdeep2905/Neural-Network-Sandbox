@@ -4,7 +4,7 @@
 
 1. Introduction
 2. Installation
-3. How to run 
+3. [How to run](#How-to-run) 
 4. Features
    * Readme 
    * Help
@@ -262,7 +262,7 @@ Sometimes Visualize training doesn't work | No
 # Credits
 
 Contributors: 
-   * [Deep Raval]: https://github.com/imdeep2905
+   * [Deep Raval](https://github.com/imdeep2905)
 
 Without these excellant libraries :heart: this would not have been possible.
    * tensorflow
