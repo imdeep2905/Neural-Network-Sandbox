@@ -2,7 +2,7 @@
 
 # Contents
 
-1. [I'm absoulte beginner](#I-m-absoulte-beginner)
+1. [I am absoulte beginner](#I-am-absoulte-beginner)
 2. [Buzzwords](#Buzzwords)
    * [Optimization Technique](#Optimization-Technique)
    * [Loss Function](#Loss-Function)
@@ -13,7 +13,7 @@
 3. [Help me select parameters](#Help-me-select-parameters)
 4. [Demo Tutorial](#Demo-Tutorial)
 
-# I'm absoulte beginner
+# I am absoulte beginner
 Don't Worry Deep learning isn't that Hard !!!
 Follow these **Resources** in order and you'll be good to go !
   * [Introduction to Neural Network](https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi)
@@ -66,7 +66,7 @@ Validation Data is basically testing data derived from training/testing data.It 
 | Nadam | ### |## or ###|
 | AdaMax | ### |## or ###|
 
-You should always choose optimizer according do available data and time.
+You should always choose optimizer according to available data and timeconstraint.
 
 ### Choose Loss function
 
@@ -75,14 +75,16 @@ You should always choose optimizer according do available data and time.
 
 ![choose_loss](https://github.com/imdeep2905/Neural-Network-Sandbox/blob/master/Frontend/imgs/choose_loss.png)
 
-Actually it's little hactic to select just right learning rate for your project.Feel free to experiment with different learning rates and see which gives best accuracy/mse.
+Actually it's little hard to select just right learning rate for your project.Feel free to experiment with different learning rates and see which one gives best results.
 
 Our Advice is to start with smaller learning rate and gradually increase it untill you find best one.
 
 ### Choose Weights Intialization
 
 ### Choose Epochs
-Start with low number of epochs and increase it untill you find best one.
+
+Guessing right number of epochs also require experience.But you can start with less epochs and gradually increase it untill you find best one for your project.
+
 # Demo Tutorial
 
 ### Will be Updated Soon !
