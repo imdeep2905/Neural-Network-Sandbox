@@ -19,7 +19,7 @@
    * [Reset](#Reset)
    * [Batch Normalization](#Batch-Normalization)
    * [Use GPU](#Use-GPU)
-   * [Shuffle Data](#Suffle-Data)
+   * [Shuffle Data](#Shuffle-Data)
    * [Training Stats](#Training-Stats)
    * [Layer Control](#Layer-Control)
    * [Network Drawings](#Network-Drawing)
@@ -165,7 +165,7 @@ Tensorflow <2.1.0 (CPU) | Checking or Unchecking will not make any difference
 Tensorflow-gpu <=2.0.0 | Checking will use GPU (not work if  CUDA is notconfigured) unchecking will use CPU.
 Tensorflow == 2.1.0 (Which supports both CPU and GPU)  | Checking will use GPU (work even if  CUDA is not configured) unchecking will use CPU.
 
-### Suffle Data
+### Shuffle Data
 
 Checking this will shuffle training data before training.
 
