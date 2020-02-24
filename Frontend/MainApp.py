@@ -305,13 +305,14 @@ class MainScreen(FloatLayout):
         for i in range(layers_n-2):
             self.ids.layer_control.add_layer()
         layers.reverse()
-        self.ids.network_drawing.draw_network(layers=layers)
         activation_fns.reverse()
         i=0
         for children in self.ids.layer_control.children: 
             children.ids.neurons.text=str(layers[i])
             children.ids.activation_fn.text=str(activation_fns[i])
             i+=1
+        layers.reverse()
+        self.ids.network_drawing.draw_network(layers=layers)
 
     def update_stats(self,text="Training Stats: "):
         with open('log.txt', 'r') as f:
