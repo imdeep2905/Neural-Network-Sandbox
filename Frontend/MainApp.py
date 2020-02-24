@@ -291,7 +291,7 @@ class MainScreen(FloatLayout):
         layers_data=json_data["config"]['layers']
         layers_n=1
         layers=[layers_data[0]["config"]["batch_input_shape"][1]]
-        activation_fns=["sigmoid"]
+        activation_fns=["No Activation for First Layer"]
         for layer in layers_data:
             if layer["class_name"]=="BatchNormalization":
                 self.batch_normalization=True
