@@ -1,7 +1,4 @@
 #Using tf,tf.keras as backend for NN
-#import sys
-#print(sys.path)
-#sys.path.append('C:\\Users\\Deep Raval\\Desktop\\Projects\\Neural-Network-Sandbox\\BackEnd')
 from tensorflow import test 
 from tensorflow import keras
 import time
@@ -11,11 +8,12 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 import os
 import json
-#Permit CPU usage
+
 def set_device(GPU):
-    if test.is_built_with_cuda():
+    #Setting enviroment var according to choice
+    if test.is_built_with_cuda(): #only for tf-gpu or tf>=2.1.0
         if GPU==False:
-            os.environ['CUDA_VISIBLE_DEVICES'] = '-1' #For CPU use
+            os.environ['CUDA_VISIBLE_DEVICES'] = '-1' #Hides GPU
 
 #choosing optimizer according to user's choice
 def get_optimizer(optimizer,lr):
@@ -35,7 +33,7 @@ def get_optimizer(optimizer,lr):
         return keras.optimizers.Adadelta(learning_rate=lr)
 
 class MyLogger(Callback):
-        
+    #After each epoch logs are written in 'log.txt'    
     def on_epoch_end(self, epoch,logs):
         with open('log.txt', 'w') as f:
             stats= "Epoch: "+ str(epoch+1)
@@ -74,12 +72,15 @@ class NN:
         print(self.model.summary()) #for debugging 
     
     def fit(self,x_train,y_train,val_split=0.0,shuffle=True):
+        #fitting on training data
         self.train_history=self.model.fit(x_train,y_train,epochs=self.epochs,validation_split=val_split,callbacks=[MyLogger()],shuffle=shuffle)
             
     def evaluate(self,x_test,y_test):
+        #evaluating on testing data
         self.test_history=self.model.evaluate(x_test,y_test,verbose=0)#Bug in tf (too many '='s in console)
     
     def train_visualize(self,size_x=8,size_y=5):
+        #Graph of training metrics's history
         pd.DataFrame(self.train_history.history).plot(figsize=(size_x,size_y)) 
         plt.grid(True)
         plt.xlabel('epochs')
@@ -87,13 +88,14 @@ class NN:
         plt.savefig("train_history_img")
     
     def get_test_stats(self):
-        #not working
+        #Gives result of training 
         stats="Loss: " + str(self.test_history[0]) +"\nAccuracy: " +str(self.test_history[1]) + "\nMSE: " + str(self.test_history[2])
         return stats
             
     def save_model(self,name,path="."):
+        #Saves model in '.h5' format
         self.model.save(os.path.join(path,name+".h5"))
     
     def load_model(self,path):
-        self.model=keras.models.load_model(path)
+        self.model=keras.models.load_model(path)#Loading actual model
         return self.model.to_json() #returns model config in json form

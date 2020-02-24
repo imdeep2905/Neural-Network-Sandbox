@@ -2,7 +2,7 @@ import graphviz
 from subprocess import check_call
 
 # Thanks to
-# https://github.com/martisak/dotnets/blob/master/dotnets.py
+# https://github.com/martisak/dotnets/blob/master/dotnets.py (Modified to suit use)
 # https://tgmstat.wordpress.com/2013/06/12/draw-neural-network-diagrams-graphviz/
 
 class NetworkDrawer:
@@ -58,5 +58,4 @@ class NetworkDrawer:
 
                 f.write("}")
         
-        #graphviz.Digraph(filename='network_graph.txt')
-        check_call(['dot','-Tpng','network_graph.txt','-o','Network_Drawing.png'])
+        check_call(['dot','-Tpng','network_graph.txt','-o','Network_Drawing.png']) #Converts .txt -> .png

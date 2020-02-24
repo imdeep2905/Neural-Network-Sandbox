@@ -324,7 +324,7 @@ class MainScreen(FloatLayout):
         popup.open()
         greet_text='''
         - We Recommend you to read 'Readme' first before starting.
-        - Feel Free to click 'Help' in case if you dont understand something.
+        - Feel Free to click 'Help' in case if you dont understand anything.
         - Please be patient after pressing 'start' button because App will not 
           respond while training the model.
         - After training model training stats will be updated automatically.

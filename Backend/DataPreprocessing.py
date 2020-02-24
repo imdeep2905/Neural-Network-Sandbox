@@ -1,11 +1,12 @@
 #importing necessary libraries
-import tensorflow as tf 
+import tensorflow as tf  
 import pandas as pd 
 import os
 import numpy as np 
 from sklearn.model_selection import train_test_split
 
 class DataProcessor:
+    # Class for .csv -> x,y for training
     def __init__(self,path,smart_preprocess=False):
         self.data=pd.read_csv(path)
         self.x_data=0
@@ -17,7 +18,6 @@ class DataProcessor:
         if self.smart_preprocess:
             self.cols=self.smart_preprocess_()
         # Currently only single label is supported
-        #self.data=self.data.drop(["thal"],axis=1) #TESTING
         if label_last:
             target=self.data.pop(self.data.columns[len(self.data.columns)-1])
             self.y_data=target.values
@@ -46,7 +46,8 @@ class DataProcessor:
         return self.data.shape[1]
         
 class DataSplitter(DataProcessor):
-    #this class is inherited because all basic funcs are same except this will split data
+    #this class is inherited because all basic funs are same except this will split data
+    #Although it isn't used currently
     def __init__(self,path,smart_preprocess):
         super().__init__(path=path,smart_preprocess=smart_preprocess)
         
