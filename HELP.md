@@ -1,4 +1,5 @@
 # Neural-Network-Sandbox Help Section
+![logo](https://github.com/imdeep2905/Neural-Network-Sandbox/blob/master/Frontend/imgs/icon.png)
 
 # Contents
 
@@ -80,6 +81,8 @@ Actually it's little hard to select just right learning rate for your project.Fe
 Our Advice is to start with smaller learning rate and gradually increase it untill you find best one.
 
 ### Choose Weights Intialization
+
+### Will be Updated Soon !
 
 ### Choose Epochs
 
