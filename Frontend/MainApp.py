@@ -8,6 +8,9 @@ import time
 import kivy
 import json
 kivy.require('1.11.1') 
+from kivy.config import Config
+Config.set('kivy','window_icon','Frontend/imgs/icon.png')
+from kivy_deps import sdl2, glew, gstreamer
 from kivy.clock import Clock
 from kivy.uix.popup import Popup
 from kivy.app import App
@@ -321,8 +324,7 @@ class MainScreen(FloatLayout):
         self.ids.stats.text=text+str(data)
 
     def greet_user(self,td):
-        popup = Popup(title='Welcome to Neural Network SandBox !!!', size_hint=(0.75, 0.75),auto_dismiss=True)
-        popup.open()
+        layout = GridLayout(rows=2) 
         greet_text='''
         - We Recommend you to read 'Readme' first before starting.
         - Feel Free to click 'Help' in case if you dont understand anything.
@@ -331,8 +333,14 @@ class MainScreen(FloatLayout):
         - After training model training stats will be updated automatically.
         - Happy Learning !!!
         '''
-        popup.add_widget((Label(text=greet_text)))
-        
+        popupLabel = Label(text = greet_text) 
+        logo = Image(source = "Frontend/imgs/icon.png") 
+        layout.add_widget(popupLabel),#size_hint_x=1,size_hint_y=0.8) 
+        layout.add_widget(logo),#size_hint_x=1,size_hint_y=0.2)
+        popup = Popup(title ='Welcome to Neural Network SandBox !!!', 
+                      content = layout, 
+                      size_hint =(0.75, 0.75),auto_dismiss=True)   
+        popup.open()          
                         
 class NNSandboxApp(App):
     def build(self):
