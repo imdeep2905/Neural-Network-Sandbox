@@ -1,6 +1,7 @@
 # Neural-Network-Sandbox
-**Current Version: V1.0**
+![logo](https://github.com/imdeep2905/Neural-Network-Sandbox/blob/master/Frontend/imgs/icon.png)
 
+**Current Version: V1.0**
 # Contents
 
 1. [Introduction](#Introduction)
