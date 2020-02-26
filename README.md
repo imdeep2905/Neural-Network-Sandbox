@@ -269,7 +269,7 @@ Checking this will preprocess selected training/testing before starting.It does 
 Slide it to select percentage of validation data from training data.```0%``` means no validation.
 
 # Known Issues
-Issue | Solved
+Issue | Fixed
 ------------ | -------------
 Sometimes Visualize training doesn't work | No
 
