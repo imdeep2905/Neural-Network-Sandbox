@@ -285,19 +285,9 @@ Without these excellant libraries :heart: this would not have been possible.
    * pydot
    * pygame
    * kivy
-   * kivy-deps.angle
-   * kivy-deps.glew
-   * kivy-deps.gstreamer
-   * Kivy-Garden
-   * kivy.deps.sdl2
-   * kiwisolver
    * pydotplus
    * graphviz
    * pillow
    * scikit-learn
-   * scipy
-   * setuptools
-   * docutils 
    * pygments 
    * pypiwin32
-   * pip
