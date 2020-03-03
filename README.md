@@ -55,7 +55,7 @@ While there is no executable available you can try Neural Network Sandbox with s
 Before running Make Sure you have graphviz installed on your PC. Also make sure you have graphviz in environment variables.See [#1](https://github.com/imdeep2905/Neural-Network-Sandbox/issues/1) For More info on this.
 
   1. Clone this repo. 
-  (Get code from [Releases](https://github.com/imdeep2905/Neural-Network-Sandbox/releases) for stable run.You can also clone current    code but it maybe unstable)
+  (Stable : [V1.0](https://github.com/imdeep2905/Neural-Network-Sandbox/archive/V1.0.zip).You can also clone current code but it maybe unstable)
   2. Fulfill ```requirements.txt``` (```pip install -r requirements.txt```).
   3. Run with command ```python main.py```.
 
