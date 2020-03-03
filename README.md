@@ -1,6 +1,7 @@
 # Neural-Network-Sandbox
-**Current Version: V1.0**
+![logo](https://github.com/imdeep2905/Neural-Network-Sandbox/blob/master/Frontend/imgs/icon.png)
 
+**Current Version: V1.0**
 # Contents
 
 1. [Introduction](#Introduction)
@@ -51,8 +52,9 @@ Currently we are working on one **executable file** and **pip package** for this
 # How to run
 While there is no executable available you can try Neural Network Sandbox with source code.
 
+Before running Make Sure you have graphviz installed on your PC. Also make sure you have graphviz in environment variables.See [#1](https://github.com/imdeep2905/Neural-Network-Sandbox/issues/1) For More info on this.
   1. Clone this repo.
-  2. Fulfill ```requirements.txt``` (```pip install requirements.txt```).
+  2. Fulfill ```requirements.txt``` (```pip install -r requirements.txt```).
   3. Run with command ```python main.py```.
 
 # Features
@@ -268,7 +270,7 @@ Checking this will preprocess selected training/testing before starting.It does 
 Slide it to select percentage of validation data from training data.```0%``` means no validation.
 
 # Known Issues
-Issue | Solved
+Issue | Fixed
 ------------ | -------------
 Sometimes Visualize training doesn't work | No
 
@@ -284,19 +286,9 @@ Without these excellant libraries :heart: this would not have been possible.
    * pydot
    * pygame
    * kivy
-   * kivy-deps.angle
-   * kivy-deps.glew
-   * kivy-deps.gstreamer
-   * Kivy-Garden
-   * kivy.deps.sdl2
-   * kiwisolver
    * pydotplus
    * graphviz
    * pillow
    * scikit-learn
-   * scipy
-   * setuptools
-   * docutils 
    * pygments 
    * pypiwin32
-   * pip
