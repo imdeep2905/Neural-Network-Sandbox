@@ -53,7 +53,7 @@ Currently we are working on one **executable file** and **pip package** for this
 While there is no executable available you can try Neural Network Sandbox with source code.
 
   1. Clone this repo.
-  2. Fulfill ```requirements.txt``` (```pip install requirements.txt```).
+  2. Fulfill ```requirements.txt``` (```pip install -r requirements.txt```).
   3. Run with command ```python main.py```.
 
 # Features
