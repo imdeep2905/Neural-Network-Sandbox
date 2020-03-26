@@ -1,7 +1,10 @@
 # Neural-Network-Sandbox
 **Current Version: V1.0**
+<br/><br/>
 ![logo](https://github.com/imdeep2905/Neural-Network-Sandbox/blob/master/Frontend/imgs/icon.png)
+<br/><br/>
 **Demo of Neural Network Sandbox**
+<br/>
 ![Demo](https://github.com/imdeep2905/Neural-Network-Sandbox/blob/master/Frontend/imgs/demo.gif)
 # Contents
 
