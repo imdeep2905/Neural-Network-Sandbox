@@ -4,7 +4,7 @@ pandas==0.25.3
 pydot==1.4.1
 pygame==1.9.6
 kivy==1.11.1
-kivy-deps.angle==0.2.0
+kivy-deps.angle==0.3.0
 kivy-deps.glew==0.2.0
 kivy-deps.gstreamer==0.2.0
 Kivy-Garden==0.1.4
