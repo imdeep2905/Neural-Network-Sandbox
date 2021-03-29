@@ -6,7 +6,7 @@ pygame==1.9.6
 kivy==1.11.1
 kivy-deps.angle==0.2.0
 kivy-deps.glew==0.2.0
-kivy-deps.gstreamer==0.2.0
+kivy-deps.gstreamer==0.3.2
 Kivy-Garden==0.1.4
 kivy.deps.sdl2
 kiwisolver==1.1.0
