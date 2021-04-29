@@ -1,0 +1,28 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: pillow
+    versions:
+    - 8.1.0
+    - 8.1.1
+    - 8.1.2
+  - dependency-name: pandas
+    versions:
+    - 1.2.1
+    - 1.2.2
+    - 1.2.3
+  - dependency-name: pygments
+    versions:
+    - 2.7.4
+    - 2.8.0
+  - dependency-name: scikit-learn
+    versions:
+    - 0.24.1
+  - dependency-name: kivy-deps-gstreamer
+    versions:
+    - 0.3.1
