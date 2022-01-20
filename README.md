@@ -6,6 +6,7 @@
 **Demo of Neural Network Sandbox**
 <br/>
 ![Demo](https://github.com/imdeep2905/Neural-Network-Sandbox/blob/master/Frontend/imgs/demo.gif)
+
 # Contents
 
 1. [Introduction](#Introduction)
@@ -40,7 +41,8 @@
    * [Smart PreProcess Data](#Label-at-Start)
    * [Validation Split](#Validation-Split)
 5. [Known Issues](#Known-Issues)
-6. [Credits](#Credits)
+6. [Acknowledgment](#Acknowledgment)
+7. [Credits](#Credits)
 
 # Introduction
 Neural Network Sandbox is a GUI based application which makes making and training basic feed forward neural networks easy.
@@ -280,21 +282,11 @@ Issue | Fixed
 ------------ | -------------
 Sometimes Visualize training doesn't work | No
 
+# Acknowledgment
+
+We would like to thank Dr. Devang Pandya, Adani Institute of Infrastructure Engineering for his continuous guidance and support.
 # Credits
 
 Contributors :computer: : 
    * [Deep Raval](https://github.com/imdeep2905)
 
-Without these excellant libraries :heart: this would not have been possible.
-   * tensorflow
-   * matplotlib
-   * pandas
-   * pydot
-   * pygame
-   * kivy
-   * pydotplus
-   * graphviz
-   * pillow
-   * scikit-learn
-   * pygments 
-   * pypiwin32
